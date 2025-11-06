@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profil - Teranga Home Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center" href="admin.html">
+        <img src="../assets/images/logo_casahome.png" alt="Teranga Home" height="36" class="me-2">
+        <strong>Famille</strong>
+      </a>
+      <div class="ms-auto d-flex align-items-center">
+        <a href="settings.html" class="btn btn-outline-secondary btn-sm me-2"><i class="bi bi-gear me-1"></i>Paramètres</a>
+        <a href="#" id="logoutBtn" class="btn btn-outline-danger btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Déconnexion</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    <div class="row">
+      <div class="col-lg-8 col-xl-7">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h1 class="h4 mb-3">Mon profil</h1>
+            <p class="text-muted mb-4">Mettez à jour vos informations personnelles.</p>
+
+            <form id="profileForm" class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Prénom</label>
+                <input type="text" class="form-control" id="firstName" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Nom</label>
+                <input type="text" class="form-control" id="lastName" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Téléphone</label>
+                <input type="tel" class="form-control" id="phone">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Bio</label>
+                <textarea class="form-control" id="bio" rows="3" placeholder="Quelques mots sur vous..."></textarea>
+              </div>
+
+              <div class="col-12">
+                <div class="d-flex align-items-center">
+                  <img id="avatarPreview" src="../assets/images/user-avatar.jpg" alt="Avatar" width="64" height="64" class="rounded-circle me-3 border">
+                  <div>
+                    <label class="form-label mb-1">Photo de profil</label>
+                    <input type="file" class="form-control" id="avatar" accept="image/*">
+                    <div class="form-text">PNG, JPG, GIF - 2 Mo max.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 d-flex gap-2">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i>Enregistrer</button>
+                <button type="button" id="resetBtn" class="btn btn-outline-secondary">Réinitialiser</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-xl-5 mt-4 mt-lg-0">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="h5 mb-3">Sécurité</h2>
+            <form id="passwordForm" class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Mot de passe actuel</label>
+                <input type="password" class="form-control" id="currentPassword" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Nouveau mot de passe</label>
+                <input type="password" class="form-control" id="newPassword" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Confirmer le nouveau mot de passe</label>
+                <input type="password" class="form-control" id="confirmPassword" required>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-outline-primary"><i class="bi bi-shield-lock me-1"></i>Mettre à jour le mot de passe</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const STORAGE_KEY = 'adminCurrentUser';
+
+    function getCurrentUser() {
+      try {
+        const fromSession = sessionStorage.getItem(STORAGE_KEY);
+        if (fromSession) return JSON.parse(fromSession);
+        const fromLocal = localStorage.getItem(STORAGE_KEY);
+        if (fromLocal) return JSON.parse(fromLocal);
+      } catch (e) {}
+      // Fallback invité
+      return { firstName: 'Admin', lastName: '', email: '', phone: '', bio: '', avatar: '' };
+    }
+
+    function saveCurrentUser(user) {
+      const data = JSON.stringify(user);
+      sessionStorage.setItem(STORAGE_KEY, data);
+      localStorage.setItem(STORAGE_KEY, data);
+    }
+
+    function populateForm(user) {
+      document.getElementById('firstName').value = user.firstName || '';
+      document.getElementById('lastName').value = user.lastName || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('phone').value = user.phone || '';
+      document.getElementById('bio').value = user.bio || '';
+      const avatarPreview = document.getElementById('avatarPreview');
+      avatarPreview.src = user.avatar || '../assets/images/user-avatar.jpg';
+    }
+
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const user = getCurrentUser();
+      user.firstName = document.getElementById('firstName').value.trim();
+      user.lastName = document.getElementById('lastName').value.trim();
+      user.email = document.getElementById('email').value.trim();
+      user.phone = document.getElementById('phone').value.trim();
+      user.bio = document.getElementById('bio').value.trim();
+
+      const file = document.getElementById('avatar').files[0];
+      if (file) {
+        try {
+          user.avatar = await toBase64(file);
+          document.getElementById('avatarPreview').src = user.avatar;
+        } catch (e) {}
+      }
+      saveCurrentUser(user);
+      const btn = e.submitter;
+      btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enregistré';
+      setTimeout(() => { btn.disabled = false; btn.textContent = 'Enregistrer'; }, 1200);
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      populateForm(getCurrentUser());
+    });
+
+    document.getElementById('passwordForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newPwd = document.getElementById('newPassword').value;
+      const confirm = document.getElementById('confirmPassword').value;
+      if (newPwd !== confirm) {
+        alert('Les mots de passe ne correspondent pas.');
+        return;
+      }
+      // Démo: on enregistre juste un flag local
+      const user = getCurrentUser();
+      user.passwordUpdatedAt = new Date().toISOString();
+      saveCurrentUser(user);
+      alert('Mot de passe mis à jour (démo).');
+      e.target.reset();
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      sessionStorage.removeItem(STORAGE_KEY);
+      window.location.href = '../admin-dashbord/admin-login.html';
+    });
+
+    populateForm(getCurrentUser());
+  </script>
+</body>
+</html>
+

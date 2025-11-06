@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,37 +19,37 @@
       --dark-blue: #1A7A9A;
       --light-orange: #FFF4ED;
     }
-    
+
     body {
       font-family: 'Poppins', sans-serif;
       color: #333;
       line-height: 1.6;
     }
-    
+
     .navbar-branding {
       background-color: white;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
-    
+
     .navbar-brand img {
       height: 48px;
     }
-    
+
     .nav-link {
       font-weight: 500;
       color: #555 !important;
       transition: all 0.2s;
     }
-    
+
     .nav-link:hover {
       color: var(--primary-blue) !important;
     }
-    
+
     .nav-link.active {
       color: var(--primary-blue) !important;
       font-weight: 600;
     }
-    
+
     .btn-primary {
       background-color: var(--primary-orange);
       border-color: var(--primary-orange);
@@ -58,73 +59,75 @@
       box-shadow: 0 2px 8px rgba(235, 111, 39, 0.3);
       transition: all 0.2s;
     }
-    
+
     .btn-primary:hover {
       background-color: #D96523;
       border-color: #D96523;
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(235, 111, 39, 0.4);
     }
-    
+
     .btn-outline-primary {
       border-color: var(--primary-blue);
       color: var(--primary-blue);
       font-weight: 500;
     }
-    
+
     .btn-outline-primary:hover {
       background-color: var(--primary-blue);
       color: white;
     }
-    
+
     .section-card {
       border: none;
       border-radius: 12px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
       transition: all 0.3s;
     }
-    
+
     .section-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
     }
-    
+
     .section-title {
       border-left: 4px solid var(--primary-blue);
       padding-left: 12px;
       font-weight: 600;
       margin-bottom: 1.5rem;
     }
-    
+
     .required::after {
       content: " *";
       color: #dc3545;
     }
-    
-    .form-control, .form-select {
+
+    .form-control,
+    .form-select {
       padding: 10px 12px;
       border-radius: 8px;
     }
-    
-    .form-control:focus, .form-select:focus {
+
+    .form-control:focus,
+    .form-select:focus {
       border-color: var(--primary-blue);
       box-shadow: 0 0 0 0.25rem rgba(42, 164, 205, 0.25);
     }
-    
+
     .help-card {
       background-color: var(--light-blue);
       border-radius: 12px;
       padding: 1.5rem;
       height: 100%;
     }
-    
+
     .help-card h2 {
       font-size: 1rem;
       text-transform: uppercase;
       color: var(--dark-blue);
       margin-bottom: 1.5rem;
     }
-    
+
     .help-card .btn-light {
       background-color: white;
       border-radius: 8px;
@@ -133,40 +136,40 @@
       transition: all 0.2s;
       margin-bottom: 8px;
     }
-    
+
     .help-card .btn-light:hover {
       background-color: var(--primary-blue);
       color: white;
     }
-    
+
     .help-card .btn-light i {
       margin-right: 8px;
       color: var(--primary-blue);
     }
-    
+
     .help-card .btn-light:hover i {
       color: white;
     }
-    
+
     .preview-card {
       border: 1px dashed var(--primary-blue);
       border-radius: 12px;
       padding: 1.5rem;
       background-color: rgba(42, 164, 205, 0.05);
     }
-    
+
     .preview-card h3 {
       font-size: 1.1rem;
       color: var(--dark-blue);
       margin-bottom: 1rem;
     }
-    
+
     .file-upload {
       position: relative;
       overflow: hidden;
       display: inline-block;
     }
-    
+
     .file-upload-input {
       position: absolute;
       left: 0;
@@ -176,23 +179,23 @@
       height: 100%;
       cursor: pointer;
     }
-    
+
     .site-footer {
       background-color: var(--primary-blue);
       color: white;
     }
-    
+
     .site-footer a {
       color: white;
       text-decoration: none;
       transition: all 0.2s;
     }
-    
+
     .site-footer a:hover {
       text-decoration: underline;
       opacity: 0.9;
     }
-    
+
     @media (max-width: 768px) {
       .section-title {
         font-size: 1.2rem;
@@ -202,46 +205,47 @@
   <!-- Simple demo-only persistence -->
   <script>
     // Access guard: only 'family' role can view this page
-    (function(){
+    (function () {
       try {
         const isLoggedIn = localStorage.getItem('isLoggedIn');
         const role = localStorage.getItem('userRole');
-        
+
         if (!isLoggedIn || !role) {
           alert('Vous devez être connecté pour accéder à cette page.');
           window.location.replace('../login.html');
           return;
         }
-        
+
         if (role !== 'family') {
           alert('Accès refusé. Cette page est réservée aux familles d\'accueil. Veuillez vous connecter avec un compte famille.');
           window.location.replace('../login.html');
           return;
         }
-      } catch(e) {
+      } catch (e) {
         console.error('Erreur lors de la vérification des permissions:', e);
         alert('Erreur lors de la vérification des permissions. Veuillez vous reconnecter.');
         window.location.replace('../login.html');
       }
     })();
-    
-    function saveFormToLocalStorage(formId, storageKey){
+
+    function saveFormToLocalStorage(formId, storageKey) {
       const form = document.getElementById(formId);
       const data = new FormData(form);
       const json = {};
-      for (const [k,v] of data.entries()) json[k] = v;
+      for (const [k, v] of data.entries()) json[k] = v;
       localStorage.setItem(storageKey, JSON.stringify(json));
       return json;
     }
-    
-    function loadFormFromLocalStorage(formId, storageKey){
-      const raw = localStorage.getItem(storageKey); if(!raw) return;
+
+    function loadFormFromLocalStorage(formId, storageKey) {
+      const raw = localStorage.getItem(storageKey); if (!raw) return;
       const data = JSON.parse(raw);
       const form = document.getElementById(formId);
-      Object.keys(data).forEach(k=>{ if(form.elements[k]) form.elements[k].value = data[k]; });
+      Object.keys(data).forEach(k => { if (form.elements[k]) form.elements[k].value = data[k]; });
     }
   </script>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-branding sticky-top">
     <div class="container">
@@ -257,15 +261,20 @@
         </ul>
         <div class="d-flex align-items-center">
           <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="../assets/images/user-avatar.jpg" alt="Profil" width="32" height="32" class="rounded-circle me-2">
+            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="../assets/images/user-avatar.jpg" alt="Profil" width="32" height="32"
+                class="rounded-circle me-2">
               <span class="d-none d-sm-inline">Mon compte</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
               <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i>Profil</a></li>
               <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear me-2"></i>Paramètres</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#" id="logoutBtn"><i
+                    class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
             </ul>
           </div>
         </div>
@@ -280,7 +289,8 @@
         <p class="text-muted mb-0">Gérez votre profil et vos annonces d'accueil</p>
       </div>
       <div class="d-flex gap-2">
-        <button class="btn btn-outline-secondary" onclick="loadFormFromLocalStorage('formProfil','profilFamille');loadFormFromLocalStorage('formHebergement','hebergementFamille');loadFormFromLocalStorage('formDisponibilites','disponibilitesFamille');">
+        <button class="btn btn-outline-secondary"
+          onclick="loadFormFromLocalStorage('formProfil','profilFamille');loadFormFromLocalStorage('formHebergement','hebergementFamille');loadFormFromLocalStorage('formDisponibilites','disponibilitesFamille');">
           <i class="bi bi-arrow-clockwise me-1"></i>Charger brouillon
         </button>
         <a href="../families.html" class="btn btn-primary" target="_blank">
@@ -306,11 +316,13 @@
               </div>
               <div class="col-12">
                 <label class="form-label">Présentation</label>
-                <textarea class="form-control" rows="4" name="presentation" placeholder="Décrivez votre famille et votre accueil"></textarea>
+                <textarea class="form-control" rows="4" name="presentation"
+                  placeholder="Décrivez votre famille et votre accueil"></textarea>
                 <div class="form-text">Cette description apparaîtra sur votre annonce publique.</div>
               </div>
               <div class="col-12 d-flex gap-2">
-                <button type="button" class="btn btn-outline-primary" onclick="saveFormToLocalStorage('formProfil','profilFamille');this.blur();">
+                <button type="button" class="btn btn-outline-primary"
+                  onclick="saveFormToLocalStorage('formProfil','profilFamille');this.blur();">
                   <i class="bi bi-save me-1"></i>Enregistrer
                 </button>
               </div>
@@ -329,14 +341,17 @@
               </div>
               <div class="col-md-8">
                 <label class="form-label">Équipements</label>
-                <input type="text" class="form-control" name="equipements" placeholder="Wi-Fi, Climatisation, Salle de bain privée...">
+                <input type="text" class="form-control" name="equipements"
+                  placeholder="Wi-Fi, Climatisation, Salle de bain privée...">
               </div>
               <div class="col-12">
                 <label class="form-label">Activités proposées</label>
-                <input type="text" class="form-control" name="activites" placeholder="Cuisine locale, Visite village, Atelier artisanat...">
+                <input type="text" class="form-control" name="activites"
+                  placeholder="Cuisine locale, Visite village, Atelier artisanat...">
               </div>
               <div class="col-12 d-flex gap-2">
-                <button type="button" class="btn btn-outline-primary" onclick="saveFormToLocalStorage('formHebergement','hebergementFamille');this.blur();">
+                <button type="button" class="btn btn-outline-primary"
+                  onclick="saveFormToLocalStorage('formHebergement','hebergementFamille');this.blur();">
                   <i class="bi bi-save me-1"></i>Enregistrer
                 </button>
               </div>
@@ -366,7 +381,8 @@
                 <input type="text" class="form-control" name="conditions" placeholder="Petit-déjeuner inclus, etc.">
               </div>
               <div class="col-12 d-flex gap-2">
-                <button type="button" class="btn btn-outline-primary" onclick="saveFormToLocalStorage('formDisponibilites','disponibilitesFamille');this.blur();">
+                <button type="button" class="btn btn-outline-primary"
+                  onclick="saveFormToLocalStorage('formDisponibilites','disponibilitesFamille');this.blur();">
                   <i class="bi bi-save me-1"></i>Enregistrer
                 </button>
               </div>
@@ -382,10 +398,12 @@
               <div class="col-12">
                 <div class="file-upload btn btn-light w-100 py-3">
                   <i class="bi bi-cloud-arrow-up me-2"></i>Choisir des photos
-                  <input type="file" class="file-upload-input" name="photos[]" id="photos" multiple accept="image/png,image/jpeg">
+                  <input type="file" class="file-upload-input" name="photos[]" id="photos" multiple
+                    accept="image/png,image/jpeg">
                 </div>
                 <div id="fileList" class="mt-2 small text-muted">Aucun fichier sélectionné</div>
-                <div class="form-text">Téléversez quelques photos de votre hébergement (JPG/PNG, max 5Mo par image).</div>
+                <div class="form-text">Téléversez quelques photos de votre hébergement (JPG/PNG, max 5Mo par image).
+                </div>
               </div>
               <div class="col-12">
                 <div class="preview-card">
@@ -438,7 +456,7 @@
               </tbody>
             </table>
           </div>
-          
+
           <div class="text-center text-muted py-3" id="noReservationsMessage">
             <i class="bi bi-calendar-x" style="font-size: 2rem;"></i>
             <p class="mt-2">Aucune réservation reçue pour le moment</p>
@@ -446,7 +464,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Sidebar -->
       <div class="col-lg-4">
         <div class="help-card">
@@ -465,9 +483,9 @@
               <i class="bi bi-headset"></i>Support technique
             </a>
           </div>
-          
+
           <hr class="my-3">
-          
+
           <h2><i class="bi bi-lightbulb me-2"></i>Conseils</h2>
           <div class="alert alert-light small">
             <i class="bi bi-info-circle text-primary me-2"></i>
@@ -477,16 +495,18 @@
             <i class="bi bi-info-circle text-primary me-2"></i>
             Ajoutez des photos de qualité pour attirer plus de visiteurs.
           </div>
-          
+
           <hr class="my-3">
-          
+
           <h2><i class="bi bi-floppy me-2"></i>Brouillons</h2>
           <p class="small text-muted mb-2">Vos brouillons sont enregistrés localement dans votre navigateur.</p>
           <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary btn-sm" onclick="loadFormFromLocalStorage('formProfil','profilFamille');loadFormFromLocalStorage('formHebergement','hebergementFamille');loadFormFromLocalStorage('formDisponibilites','disponibilitesFamille');">
+            <button class="btn btn-outline-secondary btn-sm"
+              onclick="loadFormFromLocalStorage('formProfil','profilFamille');loadFormFromLocalStorage('formHebergement','hebergementFamille');loadFormFromLocalStorage('formDisponibilites','disponibilitesFamille');">
               <i class="bi bi-arrow-clockwise me-1"></i>Charger
             </button>
-            <button class="btn btn-outline-danger btn-sm" onclick="localStorage.removeItem('profilFamille');localStorage.removeItem('hebergementFamille');localStorage.removeItem('disponibilitesFamille');alert('Brouillons supprimés.');">
+            <button class="btn btn-outline-danger btn-sm"
+              onclick="localStorage.removeItem('profilFamille');localStorage.removeItem('hebergementFamille');localStorage.removeItem('disponibilitesFamille');alert('Brouillons supprimés.');">
               <i class="bi bi-trash me-1"></i>Effacer
             </button>
           </div>
@@ -510,201 +530,106 @@
   <script>
     // Année courante
     document.getElementById('year').textContent = new Date().getFullYear();
-    
+
     // Afficher les fichiers sélectionnés
-    document.getElementById('photos').addEventListener('change', function(e) {
+    document.getElementById('photos').addEventListener('change', function (e) {
       const files = e.target.files;
       const fileList = document.getElementById('fileList');
-      
+
       if (files.length === 0) {
         fileList.textContent = 'Aucun fichier sélectionné';
         return;
       }
-      
+
       let html = '';
       for (let i = 0; i < Math.min(files.length, 3); i++) {
         html += `<div>${files[i].name} (${(files[i].size / 1024 / 1024).toFixed(2)} Mo)</div>`;
       }
-      
+
       if (files.length > 3) {
         html += `<div>+ ${files.length - 3} autres fichiers</div>`;
       }
-      
+
       fileList.innerHTML = html;
     });
-    
-    // Helpers for listings
-    function readListings(){
-      try { return JSON.parse(localStorage.getItem('familyListings') || '[]'); } catch(e){ return []; }
-    }
-    
-    function saveListings(list){
-      try { localStorage.setItem('familyListings', JSON.stringify(list)); } catch(e){}
-    }
-    
-    function getCurrentUser(){
-      try { return JSON.parse(localStorage.getItem('currentUser')||'null'); } catch(e){ return null; }
-    }
-    
-    function collectFormData(){
-      const profil = new FormData(document.getElementById('formProfil'));
-      const heb = new FormData(document.getElementById('formHebergement'));
-      const disp = new FormData(document.getElementById('formDisponibilites'));
-      const data = {
-        nomFamille: profil.get('nomFamille')?.trim(),
-        localisation: profil.get('localisation')?.trim(),
-        presentation: profil.get('presentation')?.trim() || '',
-        capacite: heb.get('capacite') ? parseInt(heb.get('capacite'),10) : null,
-        equipements: heb.get('equipements')?.trim() || '',
-        activites: heb.get('activites')?.trim() || '',
-        dateDebut: disp.get('dateDebut') || '',
-        dateFin: disp.get('dateFin') || '',
-        tarif: disp.get('tarif') ? parseInt(disp.get('tarif'),10) : null,
-        conditions: disp.get('conditions')?.trim() || ''
-      };
-      return data;
-    }
-    
-    function validateData(d){
-      if(!d.nomFamille) return 'Nom de famille requis';
-      if(!d.localisation) return 'Localisation requise';
-      if(!d.capacite || d.capacite < 1) return 'Capacité invalide';
-      if(!d.tarif || d.tarif < 0) return 'Tarif invalide';
-      if(!d.dateDebut) return 'Date de disponibilité requise';
-      return '';
-    }
-    
-    function buildPayload(){
-      const user = getCurrentUser();
-      const data = collectFormData();
-      const err = validateData(data);
-      if(err){ return { error: err }; }
-      const listing = {
+
+    // Fonction pour publier une annonce - VERSION CORRIGÉE
+    function publishFamily() {
+      // Récupérer les données des formulaires
+      const profilForm = document.getElementById('formProfil');
+      const hebergementForm = document.getElementById('formHebergement');
+      const disponibilitesForm = document.getElementById('formDisponibilites');
+
+      // Validation des champs obligatoires
+      if (!profilForm.querySelector('[name="nomFamille"]').value ||
+        !profilForm.querySelector('[name="localisation"]').value ||
+        !hebergementForm.querySelector('[name="capacite"]').value ||
+        !disponibilitesForm.querySelector('[name="tarif"]').value ||
+        !disponibilitesForm.querySelector('[name="dateDebut"]').value) {
+        alert('Veuillez remplir tous les champs obligatoires (marqués d\'un *) avant de publier.');
+        return;
+      }
+
+      const familyData = {
         id: Date.now(),
-        ownerEmail: user?.email || null,
-        rating: 0, 
+        nomFamille: profilForm.querySelector('[name="nomFamille"]').value,
+        localisation: profilForm.querySelector('[name="localisation"]').value,
+        presentation: profilForm.querySelector('[name="presentation"]').value || 'Aucune description fournie',
+        capacite: parseInt(hebergementForm.querySelector('[name="capacite"]').value),
+        equipements: hebergementForm.querySelector('[name="equipements"]').value || '',
+        activites: hebergementForm.querySelector('[name="activites"]').value || '',
+        dateDebut: disponibilitesForm.querySelector('[name="dateDebut"]').value,
+        dateFin: disponibilitesForm.querySelector('[name="dateFin"]').value || '',
+        tarif: parseInt(disponibilitesForm.querySelector('[name="tarif"]').value),
+        conditions: disponibilitesForm.querySelector('[name="conditions"]').value || '',
+        rating: 0,
         reviews: 0,
-        ...data
+        isNew: true,
+        published: true,
+        publishedAt: new Date().toISOString()
       };
-      return { listing, user };
-    }
 
-    async function uploadToServer(includePhotos){
-      const payload = buildPayload();
-      if(payload.error){ alert(payload.error); return; }
-      const { listing, user } = payload;
-      const form = new FormData();
-      
-      Object.keys(listing).forEach(k => {
-        if (listing[k] !== null && listing[k] !== undefined) form.append(k, listing[k]);
-      });
-      
-      if (includePhotos) {
-        const files = document.getElementById('photos').files;
-        for (let i=0;i<files.length;i++) form.append('photos[]', files[i]);
+      // Gérer l'image
+      const photoInput = document.getElementById('photos');
+      if (photoInput.files.length > 0) {
+        // Pour la démo, on utilise une image par défaut
+        // Dans un vrai projet, vous uploaderiez l'image vers un serveur
+        familyData.image = '../assets/images/placeholder.jpg';
+      } else {
+        familyData.image = '../assets/images/placeholder.jpg';
       }
-      
-      try {
-        // Simulation d'envoi au serveur
-        console.log('Envoi des données au serveur...', listing);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Enregistrement local pour la démo
-        const list = readListings();
-        const idx = list.findIndex(x => user && x.ownerEmail && x.ownerEmail === user.email);
-        
-        const firstImage = includePhotos && document.getElementById('photos').files.length > 0 ? 
-          URL.createObjectURL(document.getElementById('photos').files[0]) : 
-          '../public/assets/images/placeholder.jpg';
-        
-        const local = { 
-          ...listing, 
-          image: firstImage,
-          isNew: true
-        };
-        
-        if(idx >= 0){ 
-          list[idx] = { ...list[idx], ...local }; 
-        } else { 
-          list.push(local); 
-        }
-        
-        saveListings(list);
-        alert('Votre annonce a été publiée avec succès !');
-        
-      } catch (e) {
-        console.error(e);
-        alert('Échec de publication: ' + (e.message || 'Erreur inconnue'));
+
+      // Récupérer les annonces existantes
+      let existingFamilies = JSON.parse(localStorage.getItem('familyListings')) || [];
+
+      // Vérifier si cette famille a déjà une annonce
+      const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      const existingIndex = existingFamilies.findIndex(family =>
+        family.ownerEmail === currentUser.email
+      );
+
+      if (existingIndex >= 0) {
+        // Mettre à jour l'annonce existante
+        existingFamilies[existingIndex] = { ...existingFamilies[existingIndex], ...familyData };
+      } else {
+        // Ajouter la nouvelle annonce
+        familyData.ownerEmail = currentUser.email;
+        existingFamilies.push(familyData);
       }
+
+      // Sauvegarder
+      localStorage.setItem('familyListings', JSON.stringify(existingFamilies));
+
+      alert('Annonce publiée avec succès ! Redirection vers la page des familles...');
+
+      // Redirection vers la page d'affichage
+      setTimeout(() => {
+        window.location.href = '../families.html';
+      }, 1500);
     }
 
-    // Fonction pour publier une annonce
-function publishFamily() {
-  // Récupérer les données des formulaires
-  const profilForm = document.getElementById('formProfil');
-  const hebergementForm = document.getElementById('formHebergement');
-  const disponibilitesForm = document.getElementById('formDisponibilites');
-  
-  // Récupérer les fichiers images
-  const photoInput = document.getElementById('photos');
-  const photos = photoInput.files;
-  const imageNames = [];
-  
-  // Simuler l'upload des images (dans un vrai projet, vous utiliseriez FormData et fetch)
-  if (photos.length > 0) {
-    for (let i = 0; i < photos.length; i++) {
-      const fileName = `family_${Date.now()}_${i}.${photos[i].name.split('.').pop()}`;
-      imageNames.push(fileName);
-    }
-  } else {
-    imageNames.push('placeholder.jpg');
-  }
-  
-  const familyData = {
-    id: Date.now(),
-    nomFamille: profilForm.querySelector('[name="nomFamille"]').value,
-    localisation: profilForm.querySelector('[name="localisation"]').value,
-    presentation: profilForm.querySelector('[name="presentation"]').value,
-    capacite: parseInt(hebergementForm.querySelector('[name="capacite"]').value),
-    equipements: hebergementForm.querySelector('[name="equipements"]').value,
-    activites: hebergementForm.querySelector('[name="activites"]').value,
-    dateDebut: disponibilitesForm.querySelector('[name="dateDebut"]').value,
-    dateFin: disponibilitesForm.querySelector('[name="dateFin"]').value,
-    tarif: parseInt(disponibilitesForm.querySelector('[name="tarif"]').value),
-    conditions: disponibilitesForm.querySelector('[name="conditions"]').value,
-    images: imageNames,
-    rating: 0,
-    reviews: 0,
-    isNew: true
-  };
-
-  // Validation
-  if (!familyData.nomFamille || !familyData.localisation || !familyData.capacite || 
-      !familyData.tarif || !familyData.dateDebut) {
-    alert('Veuillez remplir tous les champs obligatoires (marqués d\'un *) avant de publier.');
-    return;
-  }
-  
-  // Récupérer les annonces existantes
-  let existingFamilies = JSON.parse(localStorage.getItem('familyListings')) || [];
-  
-  // Ajouter la nouvelle annonce
-  existingFamilies.push(familyData);
-  
-  // Sauvegarder
-  localStorage.setItem('familyListings', JSON.stringify(existingFamilies));
-  
-  // Dans un vrai projet, vous enverriez les données au serveur ici
-  // avec FormData pour gérer les fichiers
-  
-  alert('Annonce publiée avec succès !');
-  setTimeout(() => {
-    window.location.href = '../families.html';
-  }, 1500);
-}
     document.getElementById('publishBtn').addEventListener('click', publishFamily);
-    document.getElementById('uploadBtn').addEventListener('click', function(){ uploadToServer(true); });
-    
+
     // Fonctions pour les réservations
     function formatDate(dateString) {
       const date = new Date(dateString);
@@ -714,7 +639,7 @@ function publishFamily() {
         year: 'numeric'
       });
     }
-    
+
     function badgeFor(status) {
       const badges = {
         'pending': '<span class="badge bg-warning">En attente</span>',
@@ -724,29 +649,29 @@ function publishFamily() {
       };
       return badges[status] || '<span class="badge bg-secondary">Inconnu</span>';
     }
-    
+
     function loadFamilyReservations() {
       const body = document.getElementById('familyReservationsBody');
       const noReservationsMessage = document.getElementById('noReservationsMessage');
-      
+
       // Récupérer les réservations depuis localStorage
       const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
-      
+
       // Filtrer les réservations pour cette famille (par nom de famille)
       const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
       const familyName = currentUser.nom || 'Famille';
-      
-      const familyReservations = reservations.filter(r => 
+
+      const familyReservations = reservations.filter(r =>
         r.familyName && r.familyName.includes(familyName)
       );
-      
+
       if (familyReservations.length === 0) {
         body.innerHTML = '';
         noReservationsMessage.style.display = 'block';
       } else {
         noReservationsMessage.style.display = 'none';
         body.innerHTML = '';
-        
+
         familyReservations.forEach(r => {
           body.insertAdjacentHTML('beforeend', `
             <tr>
@@ -786,7 +711,7 @@ function publishFamily() {
         });
       }
     }
-    
+
     function showReservationDetails(id) {
       const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
       const res = reservations.find(r => r.id === id);
@@ -794,7 +719,7 @@ function publishFamily() {
         alert(`Détails de la réservation\n\nTouriste: ${res.familyName}\nPériode: ${formatDate(res.checkIn)} au ${formatDate(res.checkOut)}\nPersonnes: ${res.guests}\nStatut: ${res.status}\nPrix: ${res.totalPrice}\nMessage: ${res.message || 'Aucun message'}`);
       }
     }
-    
+
     function acceptReservation(id) {
       if (confirm('Êtes-vous sûr de vouloir accepter cette réservation ?')) {
         const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
@@ -807,7 +732,7 @@ function publishFamily() {
         }
       }
     }
-    
+
     function rejectReservation(id) {
       if (confirm('Êtes-vous sûr de vouloir refuser cette réservation ?')) {
         const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
@@ -820,7 +745,7 @@ function publishFamily() {
         }
       }
     }
-    
+
     function markAsCompleted(id) {
       if (confirm('Marquer cette réservation comme terminée ?')) {
         const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
@@ -833,9 +758,9 @@ function publishFamily() {
         }
       }
     }
-    
+
     // Gestion de la déconnexion
-    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    document.getElementById('logoutBtn').addEventListener('click', function (e) {
       e.preventDefault();
       if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
         // Nettoyer toutes les données de session
@@ -845,11 +770,12 @@ function publishFamily() {
         window.location.href = '../login.html';
       }
     });
-    
+
     // Charger les réservations au chargement de la page
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       loadFamilyReservations();
     });
   </script>
 </body>
+
 </html>
