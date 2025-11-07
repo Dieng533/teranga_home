@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="shortcut icon" href="./public/assets/images/logo_casahome.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Script Lottie pour l'animation du chatbot -->
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
   <style>
     :root {
       --primary-blue: #2AA4CD;
@@ -597,6 +599,273 @@
     // Masquer l'erreur quand l'utilisateur commence à taper
     document.getElementById('email').addEventListener('input', hideError);
     document.getElementById('password').addEventListener('input', hideError);
+  </script>
+
+  <!-- Chatbot Widget avec animation Lottie -->
+  <div id="chatbot-bubble" style="position: fixed; bottom: 32px; right: 32px; z-index: 9999; background: #2AA4CD; border-radius: 50px; box-shadow: 0 4px 16px rgba(0,0,0,.1); width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+    <dotlottie-wc 
+      src="https://lottie.host/d63e8e4e-633b-49e6-a2b1-d4cb02b9229f/uuRubT9e46.lottie" 
+      style="width: 58px; height: 58px;" 
+      autoplay 
+      loop>
+    </dotlottie-wc>
+  </div>
+  <div id="chatbot-window" style="display:none; position: fixed; bottom: 110px; right: 32px; width:350px; max-width:90vw; height:440px; background:#fff; z-index:10000; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.17); border:1px solid #eee; overflow:hidden; flex-direction:column;">
+    <div style="background:#2AA4CD; color:#fff; padding:16px; display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center;">
+        <dotlottie-wc 
+          src="https://lottie.host/d63e8e4e-633b-49e6-a2b1-d4cb02b9229f/uuRubT9e46.lottie" 
+          style="width: 32px; height: 32px; margin-right:12px;" 
+          autoplay 
+          loop>
+        </dotlottie-wc>
+        <span style="font-weight:bold;">Guide Teranga</span>
+      </div>
+      <button id="chatbot-close" style="background:none; border:none; color:#fff; font-size:22px; cursor:pointer;">&times;</button>
+    </div>
+    <div id="chatbot-messages" style="flex:1; padding:14px; background:#f8fafd; overflow-y:auto;"></div>
+    <div style="padding:10px; background:#fafbfc; border-top:1px solid #eef1f4;">
+      <div id="chatbot-menu" style="margin-bottom:8px;">
+        <button class="btn btn-outline-primary btn-sm me-1" onclick="setChatLang('fr')">FR</button>
+        <button class="btn btn-outline-primary btn-sm me-1" onclick="setChatLang('en')">EN</button>
+        <button class="btn btn-secondary btn-sm" onclick="showFAQMenu()">Menu rapide</button>
+      </div>
+      <form id="chatbot-form" style="display:flex; gap:6px;">
+        <input id="chatbot-input" type="text" class="form-control" placeholder="Votre question..." autocomplete="off" style="flex:1;">
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // FAQ data intégrée directement
+    let chatLang = 'fr';
+    let faqData = { 
+      fr: [
+        {
+          "question": "tourisme communautaire senegal",
+          "answer": "Le tourisme communautaire au Sénégal permet de séjourner chez l'habitant et participer à la vie locale. Les revenus bénéficient directement aux communautés et préservent les traditions."
+        },
+        {
+          "question": "comment reserver hebergement",
+          "answer": "Créez un compte, consultez les familles sur la page 'Familles' et réservez en ligne. Les prix vont de 15€ à 40€ par nuit avec petit-déjeuner."
+        },
+        {
+          "question": "meilleure periode visiter senegal",
+          "answer": "La meilleure période est de novembre à mai (saison sèche), avec des températures agréables et peu de pluie."
+        },
+        {
+          "question": "destinations populaires senegal",
+          "answer": "Dakar, Saint-Louis, la Petite Côte, le Sine-Saloum, et de nombreuses régions offrant une diversité de paysages et de cultures."
+        },
+        {
+          "question": "plats traditionnels senegal",
+          "answer": "Riz au poisson, poulet Yassa, domoda, mafé, et fruits tropicaux comme les mangues et bananes."
+        },
+        {
+          "question": "visa senegal",
+          "answer": "Les ressortissants UE, Canada et USA n'ont pas besoin de visa pour moins de 90 jours. Passeport valide requis."
+        },
+        {
+          "question": "activites culturelles",
+          "answer": "Danse traditionnelle, tissage, cuisine locale, visite de marchés, et cérémonies selon la période."
+        },
+        {
+          "question": "comment payer",
+          "answer": "Paiements sécurisés en ligne par carte bancaire ou virement. 80% revient directement aux familles."
+        },
+        {
+          "question": "transport senegal",
+          "answer": "Taxis-brousse, pirogues pour les îles, et location de véhicules. Nous aidons à organiser votre transport."
+        },
+        {
+          "question": "hebergements proposes",
+          "answer": "Chambres chez l'habitant, cases traditionnelles, et écolodges gérés par les communautés locales."
+        },
+        {
+          "question": "qu est ce que teranga home",
+          "answer": "Teranga Home est une plateforme de tourisme communautaire au Sénégal qui connecte les voyageurs avec des familles d'accueil pour des expériences authentiques."
+        },
+        {
+          "question": "familles d accueil",
+          "answer": "Nos familles d'accueil sont soigneusement sélectionnées et formées pour vous offrir un accueil chaleureux et authentique."
+        }
+      ],
+      en: [
+        {
+          "question": "community tourism senegal", 
+          "answer": "Community tourism in Senegal involves staying with local families and participating in community life. Revenue directly benefits local communities."
+        },
+        {
+          "question": "how to book accommodation",
+          "answer": "Create an account, browse families on the 'Families' page, and book online. Prices range from €15 to €40 per night with breakfast."
+        },
+        {
+          "question": "best time to visit senegal",
+          "answer": "The best period is from November to May (dry season), with pleasant temperatures and little rain."
+        },
+        {
+          "question": "popular destinations senegal",
+          "answer": "Dakar, Saint-Louis, Petite Côte, Sine-Saloum, and many regions offering diverse landscapes and cultures."
+        }
+      ]
+    };
+
+    // Éléments DOM
+    const bubble = document.getElementById('chatbot-bubble');
+    const windowEl = document.getElementById('chatbot-window');
+    const closeBtn = document.getElementById('chatbot-close');
+    const form = document.getElementById('chatbot-form');
+    const input = document.getElementById('chatbot-input');
+    const messages = document.getElementById('chatbot-messages');
+
+    // Gestionnaires d'événements
+    bubble.onclick = () => {
+      windowEl.style.display = 'flex';
+      bubble.style.display = 'none';
+      showWelcome();
+    };
+
+    closeBtn.onclick = () => {
+      windowEl.style.display = 'none';
+      bubble.style.display = 'flex';
+    };
+
+    function setChatLang(lang) {
+      chatLang = lang;
+      showWelcome();
+    }
+
+    function showWelcome() {
+      messages.innerHTML = '';
+      addBotMsg(chatLang === 'fr'
+        ? '👋 Bonjour ! Je suis votre Guide Teranga. Posez-moi vos questions sur le Sénégal, l\'hébergement, les activités, ou utilisez le menu rapide !'
+        : '👋 Hello! I am your Teranga Guide. Ask me about Senegal, accommodation, activities, or use the quick menu!');
+    }
+
+    function showFAQMenu() {
+      addBotMsg(chatLang === 'fr'
+        ? '<b>📋 Menu rapide</b><br>• Hébergement chez l\'habitant<br>• Destinations touristiques<br>• Meilleure période de visite<br>• Plats traditionnels<br>• Transport et déplacements<br>• Activités culturelles'
+        : '<b>📋 Quick Menu</b><br>• Homestay accommodation<br>• Tourist destinations<br>• Best time to visit<br>• Traditional dishes<br>• Transport<br>• Cultural activities'
+      );
+    }
+
+    function addBotMsg(text) {
+      const msg = document.createElement('div');
+      msg.style = 'margin:8px 0; text-align:left;';
+      msg.innerHTML = `<span style='background:#E6F4F9; color:#2AA4CD; padding:7px 14px; border-radius:16px 16px 16px 6px; display:inline-block; max-width:90%;'>${text}</span>`;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function addUserMsg(text) {
+      const msg = document.createElement('div');
+      msg.style = 'margin:8px 0; text-align:right;';
+      msg.innerHTML = `<span style='background:#EB6F27; color:#fff; padding:7px 14px; border-radius:16px 16px 6px 16px; display:inline-block; max-width:90%;'>${text}</span>`;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Normalisation du texte pour la recherche
+    function normalizeTxt(str) {
+      return str.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9 ]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    // Recherche améliorée dans la FAQ
+    function faqMatch(question, lang) {
+      const userQ = normalizeTxt(question);
+      
+      // Recherche exacte d'abord
+      for (const faq of faqData[lang]) {
+        if (normalizeTxt(faq.question).includes(userQ) || userQ.includes(normalizeTxt(faq.question))) {
+          return faq;
+        }
+      }
+      
+      // Recherche par mots-clés
+      let bestMatch = null;
+      let bestScore = 0;
+      
+      for (const faq of faqData[lang]) {
+        const faqQ = normalizeTxt(faq.question);
+        const userWords = userQ.split(' ');
+        const faqWords = faqQ.split(' ');
+        
+        let score = 0;
+        for (const userWord of userWords) {
+          if (userWord.length > 3) {
+            for (const faqWord of faqWords) {
+              if (faqWord.includes(userWord) || userWord.includes(faqWord)) {
+                score += userWord.length;
+                break;
+              }
+            }
+          }
+        }
+        
+        if (score > bestScore && score > 2) {
+          bestScore = score;
+          bestMatch = faq;
+        }
+      }
+      
+      return bestMatch;
+    }
+
+    // Gestion du formulaire
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const txt = input.value.trim();
+      if (!txt) return;
+      
+      addUserMsg(txt);
+      input.value = '';
+      
+      // Simulation de délai de traitement
+      setTimeout(() => {
+        const reply = faqMatch(txt, chatLang);
+        
+        if (reply) {
+          addBotMsg(reply.answer);
+        } else {
+          // Réponses intelligentes par défaut
+          const lowerTxt = txt.toLowerCase();
+          
+          if (lowerTxt.includes('bonjour') || lowerTxt.includes('hello') || lowerTxt.includes('salut')) {
+            addBotMsg(chatLang === 'fr' ? 
+              "Bonjour ! 😊 Je suis ravi de vous aider à découvrir le Sénégal. Posez-moi vos questions sur l'hébergement, les activités, ou la culture locale !" :
+              "Hello! 😊 I'm happy to help you discover Senegal. Ask me about accommodation, activities, or local culture!");
+          } 
+          else if (lowerTxt.includes('merci') || lowerTxt.includes('thank')) {
+            addBotMsg(chatLang === 'fr' ?
+              "Avec plaisir ! N'hésitez pas si vous avez d'autres questions. Bonne découverte du Sénégal ! 🌴" :
+              "You're welcome! Feel free to ask if you have other questions. Enjoy discovering Senegal! 🌴");
+          }
+          else if (lowerTxt.includes('prix') || lowerTxt.includes('tarif') || lowerTxt.includes('combien') || lowerTxt.includes('price') || lowerTxt.includes('cost')) {
+            addBotMsg(chatLang === 'fr' ?
+              "💬 Les tarifs sont communiqués directement par chaque famille après votre prise de contact. Indiquez vos dates pour recevoir une proposition personnalisée." :
+              "💬 Hosts share their rates directly with you once you get in touch. Share your travel dates to receive a personalised proposal.");
+          }
+          else if (lowerTxt.includes('contact') || lowerTxt.includes('email') || lowerTxt.includes('téléphone') || lowerTxt.includes('phone')) {
+            addBotMsg(chatLang === 'fr' ?
+              "📞 Contactez-nous via le formulaire de contact ou à contact@terangahome.sn. Nous répondons sous 24h !" :
+              "📞 Contact us via the contact form or at contact@terangahome.sn. We respond within 24 hours!");
+          }
+          else {
+            addBotMsg(chatLang === 'fr' ?
+              "Je suis spécialisé sur le Sénégal et le tourisme communautaire. Posez-moi des questions sur :<br>• L'hébergement chez l'habitant<br>• Les destinations à visiter<br>• La culture locale<br>• Les activités traditionnelles<br>• La meilleure période pour venir" :
+              "I specialize in Senegal and community tourism. Ask me about:<br>• Homestay accommodation<br>• Places to visit<br>• Local culture<br>• Traditional activities<br>• Best time to come");
+          }
+        }
+      }, 800);
+    }
+
+    // Initialisation
+    showWelcome();
   </script>
 </body>
 </html>

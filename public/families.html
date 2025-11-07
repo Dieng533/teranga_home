@@ -11,7 +11,7 @@
   <link rel="shortcut icon" href="assets/images/logo_casahome.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- Script Lottie pour l'animation du chatbot -->
-  <script src="https://unpkg.com/@lottiefiles/dotlottie-web@latest/dist/dotlottie-web.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
   <style>
     :root {
       --primary-blue: #2AA4CD;
@@ -180,12 +180,6 @@
     
     .badge-capacity {
       background-color: var(--primary-blue);
-      color: white;
-      font-weight: 500;
-    }
-    
-    .badge-price {
-      background-color: #28a745;
       color: white;
       font-weight: 500;
     }
@@ -371,46 +365,47 @@
           <div class="mb-4">
             <label for="location" class="form-label fw-medium"><i class="bi bi-geo-alt me-2 text-primary"></i>Localisation</label>
             <select class="form-select" id="location">
-              <option selected>Toutes les régions</option>
-              <option>Dakar</option>
-              <option>Saint-Louis</option>
-              <option>Petite Côte</option>
-              <option>Sine-Saloum</option>
-              <option>Thiès</option>
-              <option>Somone</option>
-              <option>Ngaparou</option>
-              <option>Guereo</option>
-              <option>Saly</option>
-              <option>Popenguine</option>
+              <option value="" selected>Toutes les régions</option>
+              <option value="Dakar">Dakar</option>
+              <option value="Saint-Louis">Saint-Louis</option>
+              <option value="Mbour">Mbour</option>
+              <option value="Saly">Saly</option>
+              <option value="Somone">Somone</option>
+              <option value="Guereo">Guereo</option>
+              <option value="Ziguinchor">Ziguinchor</option>
+              <option value="Oussouye">Oussouye</option>
+              <option value="Cap Skirring">Cap Skirring</option>
+              <option value="Kolda">Kolda</option>
+              <option value="Sédhiou">Sédhiou</option>
             </select>
           </div>
           
           <div class="mb-4">
             <label for="capacity" class="form-label fw-medium"><i class="bi bi-people me-2 text-primary"></i>Capacité d'accueil</label>
             <select class="form-select" id="capacity">
-              <option selected>Toutes capacités</option>
-              <option>1-2 personnes</option>
-              <option>3-4 personnes</option>
-              <option>5+ personnes</option>
+              <option value="" selected>Toutes capacités</option>
+              <option value="1-2">1-2 personnes</option>
+              <option value="3-4">3-4 personnes</option>
+              <option value="5+">5+ personnes</option>
             </select>
           </div>
           
           <div class="mb-4">
             <label class="form-label fw-medium"><i class="bi bi-house-gear me-2 text-primary"></i>Équipements</label>
             <div class="filter-checkbox">
-              <input class="form-check-input me-2" type="checkbox" id="equipment1">
+              <input class="form-check-input me-2 equipment-filter" type="checkbox" id="equipment1" value="Salle de bain privée">
               <label class="form-check-label" for="equipment1">Salle de bain privée</label>
             </div>
             <div class="filter-checkbox">
-              <input class="form-check-input me-2" type="checkbox" id="equipment2">
+              <input class="form-check-input me-2 equipment-filter" type="checkbox" id="equipment2" value="Climatisation">
               <label class="form-check-label" for="equipment2">Climatisation</label>
             </div>
             <div class="filter-checkbox">
-              <input class="form-check-input me-2" type="checkbox" id="equipment3">
+              <input class="form-check-input me-2 equipment-filter" type="checkbox" id="equipment3" value="Wi-Fi">
               <label class="form-check-label" for="equipment3">Wi-Fi</label>
             </div>
             <div class="filter-checkbox">
-              <input class="form-check-input me-2" type="checkbox" id="equipment4">
+              <input class="form-check-input me-2 equipment-filter" type="checkbox" id="equipment4" value="Piscine">
               <label class="form-check-label" for="equipment4">Piscine</label>
             </div>
           </div>
@@ -418,19 +413,19 @@
           <div class="mb-4">
             <label class="form-label fw-medium"><i class="bi bi-activity me-2 text-primary"></i>Activités proposées</label>
             <div class="filter-checkbox">
-              <input class="form-check-input me-2" type="checkbox" id="activity1">
+              <input class="form-check-input me-2 activity-filter" type="checkbox" id="activity1" value="Cuisine locale">
               <label class="form-check-label" for="activity1">Cuisine locale</label>
             </div>
             <div class="filter-checkbox">
-              <input class="form-check-input me-2" type="checkbox" id="activity2">
+              <input class="form-check-input me-2 activity-filter" type="checkbox" id="activity2" value="Visite village">
               <label class="form-check-label" for="activity2">Visite village</label>
             </div>
             <div class="filter-checkbox">
-              <input class="form-check-input me-2" type="checkbox" id="activity3">
+              <input class="form-check-input me-2 activity-filter" type="checkbox" id="activity3" value="Atelier artisanat">
               <label class="form-check-label" for="activity3">Atelier artisanat</label>
             </div>
             <div class="filter-checkbox">
-              <input class="form-check-input me-2" type="checkbox" id="activity4">
+              <input class="form-check-input me-2 activity-filter" type="checkbox" id="activity4" value="Excursions nature">
               <label class="form-check-label" for="activity4">Excursions nature</label>
             </div>
           </div>
@@ -446,26 +441,24 @@
       
       <!-- Liste des familles améliorée -->
       <div class="col-lg-9">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="h4 mb-0 fw-bold">Nos familles d'accueil</h2>
-          <div class="d-flex align-items-center">
-            <span class="me-2 text-muted small">Trier par :</span>
-            <select class="form-select form-select-sm" style="width: auto;">
-              <option>Pertinence</option>
-              <option>Prix croissant</option>
-              <option>Prix décroissant</option>
-              <option>Meilleures notes</option>
-              <option>Nouveautés</option>
-            </select>
+        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-lg-between mb-4 gap-3">
+          <div>
+            <h2 class="h4 mb-1 fw-bold">Nos familles d'accueil</h2>
+            <p class="text-muted small mb-0" id="familiesCount">&nbsp;</p>
           </div>
-        </div>
-        
-        <!-- Barre de recherche -->
-        <div class="row mb-4">
-          <div class="col-12">
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-search"></i></span>
-              <input type="text" class="form-control" id="searchInput" placeholder="Rechercher par nom, localisation...">
+          <div class="d-flex flex-column flex-md-row align-items-md-center gap-3 w-100 w-lg-auto">
+            <div class="input-group shadow-sm">
+              <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+              <input type="search" class="form-control" id="searchInput" placeholder="Rechercher une famille, une région...">
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="me-2 text-muted small">Trier par :</span>
+              <select class="form-select form-select-sm" id="familiesSort">
+                <option value="relevance" selected>Pertinence</option>
+                <option value="rating">Meilleures notes</option>
+                <option value="new">Nouveautés</option>
+                <option value="capacity">Capacité</option>
+              </select>
             </div>
           </div>
         </div>
@@ -474,34 +467,12 @@
           <!-- Les annonces dynamiques seront injectées ici -->
         </div>
 
-        <!-- Message si aucune famille -->
-        <div class="text-center py-5" id="noFamiliesMessage" style="display: none;">
-          <i class="bi bi-house-x" style="font-size: 3rem; color: #ccc;"></i>
-          <h3 class="mt-3">Aucune famille disponible</h3>
-          <p class="text-muted">Aucune famille d'accueil n'est actuellement publiée.</p>
-          <a href="login.html" class="btn btn-primary mt-3">
-            <i class="bi bi-person-plus me-2"></i>Devenir famille d'accueil
-          </a>
+        <div id="familiesEmptyState" class="text-center py-5 d-none">
+          <i class="bi bi-emoji-frown text-primary" style="font-size: 2.5rem;"></i>
+          <p class="mt-3 mb-1 fw-semibold">Aucune famille ne correspond à vos critères.</p>
+          <p class="text-muted small mb-0">Ajustez vos filtres ou réinitialisez la recherche pour explorer d'autres annonces.</p>
         </div>
 
-        <!-- Pagination améliorée -->
-        <nav class="mt-5" aria-label="Page navigation">
-          <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                <i class="bi bi-chevron-left"></i>
-              </a>
-            </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#">
-                <i class="bi bi-chevron-right"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
     
@@ -579,375 +550,31 @@
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
         <div>&copy; <span id="year"></span> Teranga Home. Tous droits réservés.</div>
         <div class="d-flex gap-3 mt-3 mt-md-0">
-          <a href="#"><i class="bi bi-credit-card me-1"></i> Paiements sécurisés</a>
-          <a href="#"><i class="bi bi-shield-check me-1"></i> Sécurité des données</a>
+          <a href="pricing.html"><i class="bi bi-credit-card me-1"></i> Contribution équitable</a>
+          <a href="privacy.html"><i class="bi bi-shield-check me-1"></i> Sécurité des données</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Année dynamique
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Migration des données locales pour corriger les champs image/images et les chemins
-    function migrateFamilyListings() {
-      try {
-        const raw = localStorage.getItem('familyListings');
-        if (!raw) return;
-        const families = JSON.parse(raw);
-        if (!Array.isArray(families)) return;
-
-        let changed = false;
-        const migrated = families.map(f => {
-          const family = { ...f };
-          // Normaliser champ image à partir de images[0]
-          if (!family.image && Array.isArray(family.images) && family.images.length > 0) {
-            family.image = `assets/images/${family.images[0]}`;
-            changed = true;
-          }
-          // Corriger chemins relatifs incorrects
-          if (typeof family.image === 'string') {
-            let img = family.image;
-            if (img.startsWith('../public/')) {
-              img = img.replace('../public/', '');
-              changed = true;
-            }
-            if (!img.includes('assets/') && /^(\d+\.jpg|\d+\.jpeg|casa\d+\.png|logo_casahome\.png)$/i.test(img)) {
-              img = `assets/images/${img}`;
-              changed = true;
-            }
-            family.image = img;
-          }
-          return family;
-        });
-
-        if (changed) {
-          localStorage.setItem('familyListings', JSON.stringify(migrated));
-        }
-      } catch (e) {
-        console.warn('Migration des annonces ignorée:', e);
-      }
-    }
-
-    // Fonction pour afficher les familles depuis localStorage
-    function displayFamiliesFromStorage() {
-      const container = document.getElementById('familiesGrid');
-      const noFamiliesMessage = document.getElementById('noFamiliesMessage');
-      
-      // Récupérer les annonces depuis localStorage
-      const families = JSON.parse(localStorage.getItem('familyListings')) || [];
-      
-      // Filtrer seulement les annonces publiées (celles qui ont un nom de famille)
-      const publishedFamilies = families.filter(family => 
-        family.nomFamille && family.nomFamille.trim() !== ''
-      );
-      
-      console.log('Familles trouvées:', publishedFamilies); // Pour debug
-      
-      if (publishedFamilies.length === 0) {
-        container.innerHTML = '';
-        noFamiliesMessage.style.display = 'block';
-        return;
-      }
-      
-      noFamiliesMessage.style.display = 'none';
-      container.innerHTML = '';
-      
-      publishedFamilies.forEach(family => {
-        const card = document.createElement('div');
-        card.className = 'col-md-6 col-lg-4';
-        
-        // Générer les étoiles pour la notation
-        const ratingStars = generateRatingStars(family.rating || 0);
-        const reviewCount = family.reviews || 0;
-        
-        // Déterminer si c'est une nouvelle annonce (moins de 7 jours)
-        const isNew = family.isNew || false;
-        const rawImage = family.image || family.imageUrl || (family.images && family.images[0]) || (family.photos && family.photos[0]) || '';
-        const imagePath = getCorrectImagePath(rawImage);
-        
-        card.innerHTML = `
-          <div class="card family-card h-100">
-            ${isNew ? '<span class="badge-new">Nouveau</span>' : ''}
-            <img src="${imagePath}" 
-                 class="card-img-top family-img" 
-                 alt="${family.nomFamille}" 
-                 loading="lazy"
-                 onerror="this.src='assets/images/placeholder.jpg'">
-            <div class="card-body position-relative pb-5">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <h5 class="card-title mb-0">${family.nomFamille}</h5>
-                <div>
-                  <span class="badge badge-capacity">${family.capacite || 1} personne${family.capacite > 1 ? 's' : ''}</span>
-                  <span class="badge badge-price ms-1">${family.tarif ? family.tarif.toLocaleString('fr-FR') + ' FCFA' : 'Prix non disponible'}</span>
-                </div>
-              </div>
-              <p class="text-muted small mb-2">
-                <i class="bi bi-geo-alt-fill text-primary"></i> ${family.localisation || 'Localisation non précisée'}
-              </p>
-              <div class="rating mb-2">
-                ${ratingStars}
-                <span class="text-muted small ms-1">(${reviewCount} avis)</span>
-              </div>
-              <p class="card-text">${family.presentation || 'Famille d\'accueil chaleureuse vous proposant un séjour authentique.'}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <a href="#" class="text-primary small favorite-btn">
-                  <i class="bi bi-heart"></i> Ajouter aux favoris
-                </a>
-                <a href="family-details.html?id=${family.id}" class="btn btn-outline-primary btn-sm" onclick="saveFamilyToSession(${family.id})">
-                  Voir plus
-                </a>
-              </div>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-    
-    // Fonction pour générer les étoiles de notation
-    function generateRatingStars(rating) {
-      const fullStars = Math.floor(rating);
-      const hasHalfStar = rating % 1 >= 0.5;
-      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-      
-      let stars = '';
-      
-      // Étoiles pleines
-      for (let i = 0; i < fullStars; i++) {
-        stars += '<i class="bi bi-star-fill"></i>';
-      }
-      
-      // Demi-étoile
-      if (hasHalfStar) {
-        stars += '<i class="bi bi-star-half"></i>';
-      }
-      
-      // Étoiles vides
-      for (let i = 0; i < emptyStars; i++) {
-        stars += '<i class="bi bi-star"></i>';
-      }
-      
-      return stars;
-    }
-    
-    // Fonction pour filtrer les familles
-    function filterFamilies() {
-      const locationFilter = document.getElementById('location').value;
-      const capacityFilter = document.getElementById('capacity').value;
-      const searchInput = document.getElementById('searchInput').value.toLowerCase();
-      
-      const families = JSON.parse(localStorage.getItem('familyListings')) || [];
-      let filteredFamilies = families.filter(family => 
-        family.nomFamille && family.nomFamille.trim() !== ''
-      );
-      
-      // Filtre par localisation
-      if (locationFilter !== 'Toutes les régions') {
-        filteredFamilies = filteredFamilies.filter(family => 
-          family.localisation && family.localisation.includes(locationFilter)
-        );
-      }
-      
-      // Filtre par capacité
-      if (capacityFilter !== 'Toutes capacités') {
-        const [min, max] = capacityFilter.split('-').map(val => 
-          val.endsWith('+') ? parseInt(val) : parseInt(val)
-        );
-        
-        filteredFamilies = filteredFamilies.filter(family => {
-          const capacity = family.capacite || 1;
-          if (capacityFilter.endsWith('+')) {
-            return capacity >= min;
-          } else {
-            return capacity >= min && capacity <= max;
-          }
-        });
-      }
-      
-      // Filtre par recherche texte
-      if (searchInput) {
-        filteredFamilies = filteredFamilies.filter(family => 
-          family.nomFamille.toLowerCase().includes(searchInput) ||
-          family.localisation.toLowerCase().includes(searchInput) ||
-          (family.presentation && family.presentation.toLowerCase().includes(searchInput))
-        );
-      }
-      
-      // Afficher les résultats filtrés
-      displayFilteredFamilies(filteredFamilies);
-    }
-    
-    // Fonction pour afficher les familles filtrées
-    function displayFilteredFamilies(filteredFamilies) {
-      const container = document.getElementById('familiesGrid');
-      const noFamiliesMessage = document.getElementById('noFamiliesMessage');
-      
-      if (filteredFamilies.length === 0) {
-        container.innerHTML = '';
-        noFamiliesMessage.style.display = 'block';
-        return;
-      }
-      
-      noFamiliesMessage.style.display = 'none';
-      container.innerHTML = '';
-      
-      filteredFamilies.forEach(family => {
-        const card = document.createElement('div');
-        card.className = 'col-md-6 col-lg-4';
-        
-        const ratingStars = generateRatingStars(family.rating || 0);
-        const reviewCount = family.reviews || 0;
-        const isNew = family.isNew || false;
-        const rawImage = family.image || family.imageUrl || (family.images && family.images[0]) || (family.photos && family.photos[0]) || '';
-        const imagePath = getCorrectImagePath(rawImage);
-        
-        card.innerHTML = `
-          <div class="card family-card h-100">
-            ${isNew ? '<span class="badge-new">Nouveau</span>' : ''}
-            <img src="${imagePath}" 
-                 class="card-img-top family-img" 
-                 alt="${family.nomFamille}" 
-                 loading="lazy"
-                 onerror="this.src='assets/images/placeholder.jpg'">
-            <div class="card-body position-relative pb-5">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <h5 class="card-title mb-0">${family.nomFamille}</h5>
-                <div>
-                  <span class="badge badge-capacity">${family.capacite || 1} personne${family.capacite > 1 ? 's' : ''}</span>
-                  <span class="badge badge-price ms-1">${family.tarif ? family.tarif.toLocaleString('fr-FR') + ' FCFA' : 'Prix non disponible'}</span>
-                </div>
-              </div>
-              <p class="text-muted small mb-2">
-                <i class="bi bi-geo-alt-fill text-primary"></i> ${family.localisation || 'Localisation non précisée'}
-              </p>
-              <div class="rating mb-2">
-                ${ratingStars}
-                <span class="text-muted small ms-1">(${reviewCount} avis)</span>
-              </div>
-              <p class="card-text">${family.presentation || 'Famille d\'accueil chaleureuse vous proposant un séjour authentique.'}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <a href="#" class="text-primary small favorite-btn">
-                  <i class="bi bi-heart"></i> Ajouter aux favoris
-                </a>
-                <a href="family-details.html?id=${family.id}" class="btn btn-outline-primary btn-sm" onclick="saveFamilyToSession(${family.id})">
-                  Voir plus
-                </a>
-              </div>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-    
-    // Fonction pour sauvegarder les données de la famille en session
-    function saveFamilyToSession(familyId) {
-      try {
-        const families = JSON.parse(localStorage.getItem('familyListings') || '[]');
-        const family = families.find(f => f.id == familyId);
-        
-        if (family) {
-          sessionStorage.setItem(`family_${familyId}`, JSON.stringify(family));
-        }
-      } catch (error) {
-        console.error('Erreur lors de la sauvegarde en session:', error);
-      }
-    }
-    
-    // Initialisation au chargement de la page
-    document.addEventListener('DOMContentLoaded', function() {
-      migrateFamilyListings();
-      displayFamiliesFromStorage();
-      
-      // Événements pour les filtres
-      document.getElementById('location').addEventListener('change', filterFamilies);
-      document.getElementById('capacity').addEventListener('change', filterFamilies);
-      
-      // Recherche en temps réel
-      const searchInput = document.getElementById('searchInput');
-      if (searchInput) {
-        searchInput.addEventListener('input', filterFamilies);
-      }
-      
-      // Bouton appliquer les filtres
-      const applyFiltersBtn = document.getElementById('applyFilters');
-      if (applyFiltersBtn) {
-        applyFiltersBtn.addEventListener('click', filterFamilies);
-      }
-      
-      // Bouton réinitialiser
-      const resetFiltersBtn = document.getElementById('resetFilters');
-      if (resetFiltersBtn) {
-        resetFiltersBtn.addEventListener('click', function() {
-          document.getElementById('location').value = 'Toutes les régions';
-          document.getElementById('capacity').value = 'Toutes capacités';
-          if (searchInput) searchInput.value = '';
-          displayFamiliesFromStorage();
-        });
-      }
-    });
-
-    // Initialisation des données des familles (pour la démo)
-    function initializeFamiliesData() {
-      const familiesData = [
-        {
-          id: 1,
-          nomFamille: "Famille Diatta",
-          localisation: "Ziguinchor, Sénégal",
-          presentation: "La famille Diatta vous accueille dans leur maison traditionnelle au cœur d'un village typique. Expérience culturelle garantie avec des repas authentiques et des activités traditionnelles.",
-          capacite: 4,
-          equipements: "Wi-Fi, Salle de bain privée, Climatisation, Terrasse, Jardin",
-          activites: "Cuisine locale, Visite village, Atelier artisanat, Découverte culturelle",
-          tarif: 12000,
-          images: ["3.jpg"],
-          rating: 4.5,
-          reviews: 12,
-          isNew: true,
-          dateDebut: "2024-01-01",
-          dateFin: "2024-12-31"
-        }
-      ];
-      
-      // Ne pas écraser les données existantes
-      const existingFamilies = JSON.parse(localStorage.getItem('familyListings') || '[]');
-      if (existingFamilies.length === 0) {
-        localStorage.setItem('familyListings', JSON.stringify(familiesData));
-      }
-      return familiesData;
-    }
-
-    // Initialiser les données au chargement si nécessaire
-    if (!localStorage.getItem('familyListings')) {
-      initializeFamiliesData();
-    }
-  </script>
-
-  <!-- Chatbot Widget avec animation Lottie corrigée -->
-  <div id="chatbot-bubble" style="position: fixed; bottom: 32px; right: 32px; z-index: 9999; background: #2AA4CD; border-radius: 50px; box-shadow: 0 4px 16px rgba(0,0,0,.1); width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden;">
-    <dotlottie-player 
+  <!-- Chatbot Widget avec animation Lottie -->
+  <div id="chatbot-bubble" style="position: fixed; bottom: 32px; right: 32px; z-index: 9999; background: #2AA4CD; border-radius: 50px; box-shadow: 0 4px 16px rgba(0,0,0,.1); width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+    <dotlottie-wc 
       src="https://lottie.host/d63e8e4e-633b-49e6-a2b1-d4cb02b9229f/uuRubT9e46.lottie" 
-      background="transparent" 
-      speed="1" 
       style="width: 58px; height: 58px;" 
-      loop 
-      autoplay>
-    </dotlottie-player>
+      autoplay 
+      loop>
+    </dotlottie-wc>
   </div>
-  
   <div id="chatbot-window" style="display:none; position: fixed; bottom: 110px; right: 32px; width:350px; max-width:90vw; height:440px; background:#fff; z-index:10000; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.17); border:1px solid #eee; overflow:hidden; flex-direction:column;">
     <div style="background:#2AA4CD; color:#fff; padding:16px; display:flex; align-items:center; justify-content:space-between;">
       <div style="display:flex; align-items:center;">
-        <dotlottie-player 
+        <dotlottie-wc 
           src="https://lottie.host/d63e8e4e-633b-49e6-a2b1-d4cb02b9229f/uuRubT9e46.lottie" 
-          background="transparent" 
-          speed="1" 
-          style="width: 32px; height: 32px; margin-right: 12px;" 
-          loop 
-          autoplay>
-        </dotlottie-player>
+          style="width: 32px; height: 32px; margin-right:12px;" 
+          autoplay 
+          loop>
+        </dotlottie-wc>
         <span style="font-weight:bold;">Guide Teranga</span>
       </div>
       <button id="chatbot-close" style="background:none; border:none; color:#fff; font-size:22px; cursor:pointer;">&times;</button>
@@ -966,102 +593,409 @@
     </div>
   </div>
 
-  <script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
   // Année dynamique
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Fonction pour corriger les chemins d'images (uploads, images, http, etc.)
-  function getCorrectImagePath(imagePath) {
-    if (!imagePath) return 'assets/images/placeholder.jpg';
-    if (typeof imagePath !== 'string') return 'assets/images/placeholder.jpg';
+  // Chatbot Lottie - FAQ pour les familles d'accueil
+  let chatLang = 'fr';
+  let faqData = { 
+    fr: [
+      {
+        "question": "comment reserver famille accueil",
+        "answer": "Pour réserver chez une famille d'accueil : 1) Parcourez les familles disponibles, 2) Cliquez sur 'Voir plus' pour voir les détails, 3) Remplissez le formulaire de réservation avec vos dates et nombre de personnes, 4) Contactez directement la famille pour finaliser votre séjour."
+      },
+      {
+        "question": "prix tarif famille accueil",
+        "answer": "Les tarifs varient selon les familles et sont communiqués directement par chaque famille après votre demande de réservation. Contactez la famille qui vous intéresse pour connaître les prix et conditions."
+      },
+      {
+        "question": "equipements disponibles",
+        "answer": "Les équipements varient selon les familles : salle de bain privée ou partagée, climatisation, ventilateur, Wi-Fi, terrasse, jardin, piscine, etc. Consultez les détails de chaque famille pour voir les équipements disponibles."
+      },
+      {
+        "question": "activites proposees",
+        "answer": "Les familles proposent diverses activités : cuisine locale, visite du village, ateliers d'artisanat, excursions nature, pêche traditionnelle, danse traditionnelle, découverte culturelle. Consultez les détails de chaque famille pour voir les activités proposées."
+      },
+      {
+        "question": "capacite accueil",
+        "answer": "La capacité d'accueil varie selon les familles, de 1 à 6 personnes généralement. Utilisez le filtre 'Capacité d'accueil' pour trouver une famille adaptée à votre groupe."
+      },
+      {
+        "question": "regions disponibles",
+        "answer": "Nos familles d'accueil sont réparties dans plusieurs régions : Dakar, Saint-Louis, Mbour, Saly, Somone, Guereo, Ziguinchor, Oussouye, Cap Skirring, Kolda, Sédhiou. Utilisez le filtre de localisation pour trouver une famille dans la région qui vous intéresse."
+      },
+      {
+        "question": "securite sejour",
+        "answer": "Toutes nos familles d'accueil sont sélectionnées pour leur authenticité et leur hospitalité. Nous recommandons de contacter directement la famille avant votre séjour pour discuter des détails et vous assurer que tout correspond à vos attentes."
+      },
+      {
+        "question": "comment contacter famille",
+        "answer": "Pour contacter une famille : 1) Cliquez sur 'Voir plus' sur la carte de la famille, 2) Remplissez le formulaire de réservation avec vos coordonnées, 3) La famille vous contactera directement pour finaliser votre séjour."
+      }
+    ],
+    en: [
+      {
+        "question": "how to book host family",
+        "answer": "To book with a host family: 1) Browse available families, 2) Click 'See more' to view details, 3) Fill out the reservation form with your dates and number of guests, 4) Contact the family directly to finalize your stay."
+      },
+      {
+        "question": "price cost host family",
+        "answer": "Prices vary by family and are communicated directly by each family after your reservation request. Contact the family that interests you to know the prices and conditions."
+      },
+      {
+        "question": "available equipment",
+        "answer": "Equipment varies by family: private or shared bathroom, air conditioning, fan, Wi-Fi, terrace, garden, pool, etc. Check each family's details to see available equipment."
+      }
+    ]
+  };
 
-    const trimmed = imagePath.trim();
+  // Éléments DOM du chatbot
+  const bubble = document.getElementById('chatbot-bubble');
+  const windowEl = document.getElementById('chatbot-window');
+  const closeBtn = document.getElementById('chatbot-close');
+  const form = document.getElementById('chatbot-form');
+  const input = document.getElementById('chatbot-input');
+  const messages = document.getElementById('chatbot-messages');
 
-    // URLs absolues
-    if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:')) {
-      return trimmed;
+  // Gestionnaires d'événements du chatbot
+  if (bubble && windowEl) {
+    bubble.onclick = () => {
+      windowEl.style.display = 'flex';
+      bubble.style.display = 'none';
+      showWelcome();
+    };
+
+    if (closeBtn) {
+      closeBtn.onclick = () => {
+        windowEl.style.display = 'none';
+        bubble.style.display = 'flex';
+      };
     }
 
-    // Blob ou invalide -> placeholder
-    if (trimmed.startsWith('blob:')) {
-      return 'assets/images/placeholder.jpg';
+    function setChatLang(lang) {
+      chatLang = lang;
+      showWelcome();
     }
 
-    // Normaliser les préfixes '../public/'
-    let p = trimmed.replace(/^\.\.\/public\//, '');
-
-    // Déjà sous assets/
-    if (p.startsWith('assets/')) {
-      return p;
+    function showWelcome() {
+      if (!messages) return;
+      messages.innerHTML = '';
+      addBotMsg(chatLang === 'fr'
+        ? '👋 Bonjour ! Je suis votre Guide Teranga. Posez-moi vos questions sur les familles d\'accueil, les réservations, ou utilisez le menu rapide !'
+        : '👋 Hello! I am your Teranga Guide. Ask me about host families, reservations, or use the quick menu!');
     }
 
-    // Chemins d'upload probables
-    if (p.startsWith('uploads/')) {
-      return `assets/${p}`; // assets/uploads/...
+    function showFAQMenu() {
+      addBotMsg(chatLang === 'fr'
+        ? '<b>📋 Menu rapide</b><br>• Comment réserver<br>• Tarifs et prix<br>• Équipements disponibles<br>• Activités proposées<br>• Capacité d\'accueil<br>• Régions disponibles<br>• Sécurité et contact'
+        : '<b>📋 Quick Menu</b><br>• How to book<br>• Prices and costs<br>• Available equipment<br>• Activities offered<br>• Accommodation capacity<br>• Available regions<br>• Safety and contact'
+      );
     }
 
-    // Fichiers simples (ex: 3.jpg, 11.jpeg, casa2.png)
-    if (/\.(jpg|jpeg|png|webp|gif)$/i.test(p) && !p.includes('/')) {
-      // On privilégie uploads, puis images
-      return `assets/uploads/${p}`;
+    function addBotMsg(text) {
+      if (!messages) return;
+      const msg = document.createElement('div');
+      msg.style = 'margin:8px 0; text-align:left;';
+      msg.innerHTML = `<span style='background:#E6F4F9; color:#2AA4CD; padding:7px 14px; border-radius:16px 16px 16px 6px; display:inline-block; max-width:90%;'>${text}</span>`;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
     }
 
-    // Dernier fallback
-    return 'assets/images/placeholder.jpg';
+    function addUserMsg(text) {
+      if (!messages) return;
+      const msg = document.createElement('div');
+      msg.style = 'margin:8px 0; text-align:right;';
+      msg.innerHTML = `<span style='background:#EB6F27; color:#fff; padding:7px 14px; border-radius:16px 16px 6px 16px; display:inline-block; max-width:90%;'>${text}</span>`;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Normalisation du texte pour la recherche
+    function normalizeTxt(str) {
+      return str.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9 ]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    // Recherche améliorée dans la FAQ
+    function faqMatch(question, lang) {
+      const userQ = normalizeTxt(question);
+      
+      // Recherche exacte d'abord
+      for (const faq of faqData[lang] || []) {
+        if (normalizeTxt(faq.question).includes(userQ) || userQ.includes(normalizeTxt(faq.question))) {
+          return faq;
+        }
+      }
+      
+      // Recherche par mots-clés
+      let bestMatch = null;
+      let bestScore = 0;
+      
+      for (const faq of faqData[lang] || []) {
+        const faqQ = normalizeTxt(faq.question);
+        const userWords = userQ.split(' ');
+        const faqWords = faqQ.split(' ');
+        
+        let score = 0;
+        for (const userWord of userWords) {
+          if (userWord.length > 3) {
+            for (const faqWord of faqWords) {
+              if (faqWord.includes(userWord) || userWord.includes(faqWord)) {
+                score += userWord.length;
+                break;
+              }
+            }
+          }
+        }
+        
+        if (score > bestScore && score > 2) {
+          bestScore = score;
+          bestMatch = faq;
+        }
+      }
+      
+      return bestMatch;
+    }
+
+    // Gestion du formulaire du chatbot
+    if (form) {
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        const txt = input ? input.value.trim() : '';
+        if (!txt) return;
+        
+        addUserMsg(txt);
+        if (input) input.value = '';
+        
+        // Simulation de délai de traitement
+        setTimeout(() => {
+          const reply = faqMatch(txt, chatLang);
+          
+          if (reply) {
+            addBotMsg(reply.answer);
+          } else {
+            // Réponses intelligentes par défaut
+            const lowerTxt = txt.toLowerCase();
+            
+            if (lowerTxt.includes('bonjour') || lowerTxt.includes('hello') || lowerTxt.includes('salut')) {
+              addBotMsg(chatLang === 'fr' ? 
+                "Bonjour ! 😊 Je suis ravi de vous aider à trouver la famille d'accueil idéale. Posez-moi vos questions sur les familles, les réservations ou les équipements !" :
+                "Hello! 😊 I'm happy to help you find the ideal host family. Ask me about families, reservations or equipment!");
+            } 
+            else if (lowerTxt.includes('merci') || lowerTxt.includes('thank')) {
+              addBotMsg(chatLang === 'fr' ?
+                "Avec plaisir ! N'hésitez pas si vous avez d'autres questions sur les familles d'accueil. Bon séjour ! 🌴" :
+                "You're welcome! Feel free to ask if you have other questions about host families. Have a great stay! 🌴");
+            }
+            else if (lowerTxt.includes('prix') || lowerTxt.includes('tarif') || lowerTxt.includes('price') || lowerTxt.includes('cost')) {
+              addBotMsg(chatLang === 'fr' ?
+                "💰 Les tarifs varient selon les familles et sont communiqués directement par chaque famille après votre demande de réservation. Contactez la famille qui vous intéresse pour connaître les prix." :
+                "💰 Prices vary by family and are communicated directly by each family after your reservation request. Contact the family that interests you to know the prices.");
+            }
+            else if (lowerTxt.includes('reserver') || lowerTxt.includes('book') || lowerTxt.includes('reservation')) {
+              addBotMsg(chatLang === 'fr' ?
+                "📅 Pour réserver : 1) Parcourez les familles disponibles, 2) Cliquez sur 'Voir plus', 3) Remplissez le formulaire de réservation, 4) Contactez la famille pour finaliser." :
+                "📅 To book: 1) Browse available families, 2) Click 'See more', 3) Fill out the reservation form, 4) Contact the family to finalize.");
+            }
+            else {
+              addBotMsg(chatLang === 'fr' ?
+                "Je suis spécialisé sur les familles d'accueil au Sénégal. Posez-moi des questions sur :<br>• Comment réserver<br>• Les équipements disponibles<br>• Les activités proposées<br>• Les régions et localisations<br>• La capacité d'accueil" :
+                "I specialize in host families in Senegal. Ask me about:<br>• How to book<br>• Available equipment<br>• Activities offered<br>• Regions and locations<br>• Accommodation capacity");
+            }
+          }
+        }, 800);
+      };
+    }
+
+    // Exposer les fonctions globalement pour les boutons onclick
+    window.setChatLang = setChatLang;
+    window.showFAQMenu = showFAQMenu;
   }
 
-  // Fonction pour afficher les familles depuis localStorage
-  function displayFamiliesFromStorage() {
-    const container = document.getElementById('familiesGrid');
-    const noFamiliesMessage = document.getElementById('noFamiliesMessage');
+  function isDataUrl(value) {
+    return typeof value === 'string' && value.startsWith('data:');
+  }
+
+  // Fonction pour corriger les chemins d'images
+  function getCorrectImagePath(rawImage) {
+    if (!rawImage) return 'assets/images/placeholder.jpg';
+    if (typeof rawImage !== 'string') return 'assets/images/placeholder.jpg';
+    if (isDataUrl(rawImage)) return rawImage;
+
+    let img = rawImage;
     
-    // Récupérer les annonces depuis localStorage
-    const families = JSON.parse(localStorage.getItem('familyListings')) || [];
+    console.log('Image originale:', rawImage); // Debug
     
-    // Filtrer seulement les annonces publiées (celles qui ont un nom de famille)
-    const publishedFamilies = families.filter(family => 
-      family.nomFamille && family.nomFamille.trim() !== ''
-    );
-    
-    console.log('Familles trouvées:', publishedFamilies); // Pour debug
-    
-    if (publishedFamilies.length === 0) {
-      container.innerHTML = '';
-      noFamiliesMessage.style.display = 'block';
-      return;
+    // Corriger les chemins relatifs incorrects
+    if (img.startsWith('../public/')) {
+      img = img.replace('../public/', '');
+    }
+    if (img.startsWith('../')) {
+      img = img.replace('../', '');
+    }
+    if (img.startsWith('public/')) {
+      img = img.replace('public/', '');
     }
     
-    noFamiliesMessage.style.display = 'none';
-    container.innerHTML = '';
+    // S'assurer que les images ont le bon chemin
+    if (!img.includes('assets/') && /\.(jpg|jpeg|png|gif|webp)$/i.test(img)) {
+      img = `assets/images/${img}`;
+    }
     
-    publishedFamilies.forEach(family => {
+    // Si c'est juste un nom de fichier sans chemin, ajouter le chemin par défaut
+    if (/^[^\/\\]+\.(jpg|jpeg|png|gif|webp)$/i.test(img)) {
+      img = `assets/images/${img}`;
+    }
+    
+    console.log('Image corrigée:', img); // Debug
+    return img;
+  }
+
+  // Migration des données locales pour corriger les champs image/images et les chemins
+  function migrateFamilyListings() {
+    try {
+      const raw = localStorage.getItem('familyListings');
+      if (!raw) return;
+      const families = JSON.parse(raw);
+      if (!Array.isArray(families)) return;
+
+      let changed = false;
+      const migrated = families.map(f => {
+        const family = { ...f };
+        
+        // S'assurer que published est true par défaut
+        if (family.published === undefined) {
+          family.published = true;
+          changed = true;
+        }
+        
+        // Normaliser champ image
+        if (!family.image || family.image === '../assets/images/placeholder.jpg') {
+          if (Array.isArray(family.images) && family.images.length > 0) {
+            const firstImage = family.images[0];
+            family.image = getCorrectImagePath(firstImage);
+          } else {
+            family.image = 'assets/images/placeholder.jpg';
+          }
+          changed = true;
+        }
+        
+        // Corriger chemins relatifs incorrects
+        if (typeof family.image === 'string') {
+          let img = family.image;
+          img = getCorrectImagePath(img);
+          if (img !== family.image) {
+            family.image = img;
+            changed = true;
+          }
+        }
+        
+        return family;
+      });
+
+      if (changed) {
+        localStorage.setItem('familyListings', JSON.stringify(migrated));
+        console.log('Migration des annonces terminée', migrated);
+      }
+    } catch (e) {
+      console.warn('Migration des annonces ignorée:', e);
+    }
+  }
+
+  let cachedFamilies = [];
+
+  function toArray(value) {
+    if (!value) return [];
+    if (Array.isArray(value)) {
+      return value.map(item => item != null ? String(item).trim() : '').filter(Boolean);
+    }
+    return String(value)
+      .split(',')
+      .map(item => item.trim())
+      .filter(Boolean);
+  }
+
+  function buildFamilyRecord(family, index) {
+    const equipementsList = toArray(family.equipements);
+    const activitesList = toArray(family.activites);
+    
+    // Normaliser l'image principale
+    let mainImage = family.image;
+    if (!mainImage && Array.isArray(family.images) && family.images.length > 0) {
+      mainImage = family.images[0];
+    }
+    mainImage = getCorrectImagePath(mainImage);
+
+    return {
+      ...family,
+      orderIndex: index,
+      capacite: Number.isFinite(parseInt(family.capacite, 10)) ? parseInt(family.capacite, 10) : 1,
+      equipementsList,
+      activitesList,
+      image: mainImage,
+      searchIndex: [
+        family.nomFamille || '',
+        family.localisation || '',
+        family.presentation || '',
+        equipementsList.join(' '),
+        activitesList.join(' '),
+        family.conditions || ''
+      ].join(' ').toLowerCase()
+    };
+  }
+
+  function renderFamilies(families) {
+    const grid = document.getElementById('familiesGrid');
+    const emptyState = document.getElementById('familiesEmptyState');
+    const countEl = document.getElementById('familiesCount');
+
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    if (countEl) {
+      const total = families.length;
+      countEl.textContent = total
+        ? `${total} famille${total > 1 ? 's' : ''} disponible${total > 1 ? 's' : ''}`
+        : 'Aucune famille disponible pour le moment';
+    }
+
+    if (!families.length) {
+      if (emptyState) emptyState.classList.remove('d-none');
+      return;
+    }
+
+    if (emptyState) emptyState.classList.add('d-none');
+
+    families.forEach(family => {
       const card = document.createElement('div');
       card.className = 'col-md-6 col-lg-4';
-      
-      // Générer les étoiles pour la notation
+
       const ratingStars = generateRatingStars(family.rating || 0);
       const reviewCount = family.reviews || 0;
-      
-      // Déterminer si c'est une nouvelle annonce
-      const isNew = family.isNew || false;
-      
-      // Obtenir le chemin d'image corrigé
-      const correctImagePath = getCorrectImagePath(family.image);
-      
+      const isNew = family.isNew || (family.publishedAt && (new Date() - new Date(family.publishedAt)) < 7 * 24 * 60 * 60 * 1000);
+      const imagePath = getCorrectImagePath(family.image || family.imageUrl || (family.images && family.images[0]) || '');
+      const equipmentBadges = family.equipementsList.slice(0, 3).map(eq => `<span class="badge rounded-pill bg-light text-dark me-1 mb-1">${eq}</span>`).join('');
+      const activityBadges = family.activitesList.slice(0, 3).map(act => `<span class="badge rounded-pill bg-primary bg-opacity-10 text-primary me-1 mb-1">${act}</span>`).join('');
+
       card.innerHTML = `
         <div class="card family-card h-100">
           ${isNew ? '<span class="badge-new">Nouveau</span>' : ''}
-          <img src="${correctImagePath}" 
-               class="card-img-top family-img" 
-               alt="${family.nomFamille}" 
+          <img src="${imagePath}"
+               class="card-img-top family-img"
+               alt="${family.nomFamille}"
                loading="lazy"
-               onerror="this.onerror=null; this.src='assets/images/placeholder.jpg'">
+               onerror="handleImageError(this, '${family.nomFamille}')">
           <div class="card-body position-relative pb-5">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <h5 class="card-title mb-0">${family.nomFamille}</h5>
               <div>
                 <span class="badge badge-capacity">${family.capacite || 1} personne${family.capacite > 1 ? 's' : ''}</span>
-                <span class="badge badge-price ms-1">${family.tarif ? family.tarif.toLocaleString('fr-FR') + ' FCFA' : 'Prix non disponible'}</span>
               </div>
             </div>
             <p class="text-muted small mb-2">
@@ -1072,10 +1006,14 @@
               <span class="text-muted small ms-1">(${reviewCount} avis)</span>
             </div>
             <p class="card-text">${family.presentation || 'Famille d\'accueil chaleureuse vous proposant un séjour authentique.'}</p>
+            ${family.conditions ? `<p class="text-muted small mb-2"><i class="bi bi-info-circle text-primary me-1"></i>${family.conditions}</p>` : ''}
+            <div class="d-flex flex-wrap gap-1 mb-3">
+              ${equipmentBadges}${activityBadges}
+            </div>
             <div class="d-flex justify-content-between align-items-center">
-              <a href="#" class="text-primary small favorite-btn">
+              <button type="button" class="btn btn-link text-primary p-0 favorite-btn">
                 <i class="bi bi-heart"></i> Ajouter aux favoris
-              </a>
+              </button>
               <a href="family-details.html?id=${family.id}" class="btn btn-outline-primary btn-sm" onclick="saveFamilyToSession(${family.id})">
                 Voir plus
               </a>
@@ -1083,10 +1021,20 @@
           </div>
         </div>
       `;
-      container.appendChild(card);
+
+      grid.appendChild(card);
     });
   }
-  
+
+  // Fonction pour gérer les erreurs d'images
+  function handleImageError(imgElement, familyName) {
+    console.warn(`Image non trouvée pour ${familyName}:`, imgElement.src);
+    imgElement.src = 'assets/images/placeholder.jpg';
+    imgElement.alt = `${familyName} - Image non disponible`;
+  }
+
+  // Ancienne fonction displayDefaultFamilies supprimée : les données sont désormais intégralement pilotées côté script.
+
   // Fonction pour générer les étoiles de notation
   function generateRatingStars(rating) {
     const fullStars = Math.floor(rating);
@@ -1115,111 +1063,79 @@
   
   // Fonction pour filtrer les familles
   function filterFamilies() {
-    const locationFilter = document.getElementById('location').value;
-    const capacityFilter = document.getElementById('capacity').value;
-    const searchInput = document.getElementById('searchInput').value.toLowerCase();
-    
-    const families = JSON.parse(localStorage.getItem('familyListings')) || [];
-    let filteredFamilies = families.filter(family => 
-      family.nomFamille && family.nomFamille.trim() !== ''
-    );
-    
-    // Filtre par localisation
-    if (locationFilter !== 'Toutes les régions') {
-      filteredFamilies = filteredFamilies.filter(family => 
-        family.localisation && family.localisation.includes(locationFilter)
-      );
-    }
-    
-    // Filtre par capacité
-    if (capacityFilter !== 'Toutes capacités') {
-      const [min, max] = capacityFilter.split('-').map(val => 
-        val.endsWith('+') ? parseInt(val) : parseInt(val)
-      );
-      
-      filteredFamilies = filteredFamilies.filter(family => {
-        const capacity = family.capacite || 1;
-        if (capacityFilter.endsWith('+')) {
-          return capacity >= min;
-        } else {
-          return capacity >= min && capacity <= max;
-        }
-      });
-    }
-    
-    // Filtre par recherche texte
-    if (searchInput) {
-      filteredFamilies = filteredFamilies.filter(family => 
-        family.nomFamille.toLowerCase().includes(searchInput) ||
-        family.localisation.toLowerCase().includes(searchInput) ||
-        (family.presentation && family.presentation.toLowerCase().includes(searchInput))
-      );
-    }
-    
-    // Afficher les résultats filtrés
-    displayFilteredFamilies(filteredFamilies);
-  }
-  
-  // Fonction pour afficher les familles filtrées
-  function displayFilteredFamilies(filteredFamilies) {
-    const container = document.getElementById('familiesGrid');
-    const noFamiliesMessage = document.getElementById('noFamiliesMessage');
-    
-    if (filteredFamilies.length === 0) {
-      container.innerHTML = '';
-      noFamiliesMessage.style.display = 'block';
+    if (!cachedFamilies.length) {
+      renderFamilies([]);
       return;
     }
-    
-    noFamiliesMessage.style.display = 'none';
-    container.innerHTML = '';
-    
-    filteredFamilies.forEach(family => {
-      const card = document.createElement('div');
-      card.className = 'col-md-6 col-lg-4';
-      
-      const ratingStars = generateRatingStars(family.rating || 0);
-      const reviewCount = family.reviews || 0;
-      const isNew = family.isNew || false;
-      const correctImagePath = getCorrectImagePath(family.image);
-      
-      card.innerHTML = `
-        <div class="card family-card h-100">
-          ${isNew ? '<span class="badge-new">Nouveau</span>' : ''}
-          <img src="${correctImagePath}" 
-               class="card-img-top family-img" 
-               alt="${family.nomFamille}" 
-               loading="lazy"
-               onerror="this.onerror=null; this.src='assets/images/placeholder.jpg'">
-          <div class="card-body position-relative pb-5">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="card-title mb-0">${family.nomFamille}</h5>
-              <div>
-                <span class="badge badge-capacity">${family.capacite || 1} personne${family.capacite > 1 ? 's' : ''}</span>
-                <span class="badge badge-price ms-1">${family.tarif ? family.tarif.toLocaleString('fr-FR') + ' FCFA' : 'Prix non disponible'}</span>
-              </div>
-            </div>
-            <p class="text-muted small mb-2">
-              <i class="bi bi-geo-alt-fill text-primary"></i> ${family.localisation || 'Localisation non précisée'}
-            </p>
-            <div class="rating mb-2">
-              ${ratingStars}
-              <span class="text-muted small ms-1">(${reviewCount} avis)</span>
-            </div>
-            <p class="card-text">${family.presentation || 'Famille d\'accueil chaleureuse vous proposant un séjour authentique.'}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <a href="#" class="text-primary small favorite-btn">
-                <i class="bi bi-heart"></i> Ajouter aux favoris
-              </a>
-              <a href="family-details.html?id=${family.id}" class="btn btn-outline-primary btn-sm" onclick="saveFamilyToSession(${family.id})">
-                Voir plus
-              </a>
-            </div>
-          </div>
-        </div>
-      `;
-      container.appendChild(card);
-    });
+
+    const locationSelect = document.getElementById('location');
+    const capacitySelect = document.getElementById('capacity');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('familiesSort');
+
+    const locationValue = locationSelect ? locationSelect.value.trim().toLowerCase() : '';
+    const capacityValue = capacitySelect ? capacitySelect.value : '';
+    const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    const sortValue = sortSelect ? sortSelect.value : 'relevance';
+
+    const selectedEquipments = Array.from(document.querySelectorAll('.equipment-filter:checked')).map(cb => cb.value.trim().toLowerCase());
+    const selectedActivities = Array.from(document.querySelectorAll('.activity-filter:checked')).map(cb => cb.value.trim().toLowerCase());
+
+    let filtered = cachedFamilies.slice();
+
+    if (locationValue) {
+      filtered = filtered.filter(family => (family.localisation || '').toLowerCase().includes(locationValue));
+    }
+
+    if (capacityValue) {
+      if (capacityValue.includes('+')) {
+        const min = parseInt(capacityValue, 10) || 0;
+        filtered = filtered.filter(family => (family.capacite || 0) >= min);
+      } else {
+        const [min, max] = capacityValue.split('-').map(val => parseInt(val, 10));
+        filtered = filtered.filter(family => {
+          const capacity = family.capacite || 0;
+          return capacity >= (min || 0) && capacity <= (max || capacity);
+        });
+      }
+    }
+
+    if (selectedEquipments.length) {
+      filtered = filtered.filter(family =>
+        selectedEquipments.every(eq =>
+          family.equipementsList.some(item => item.toLowerCase().includes(eq))
+        )
+      );
+    }
+
+    if (selectedActivities.length) {
+      filtered = filtered.filter(family =>
+        selectedActivities.every(act =>
+          family.activitesList.some(item => item.toLowerCase().includes(act))
+        )
+      );
+    }
+
+    if (searchTerm) {
+      filtered = filtered.filter(family => family.searchIndex.includes(searchTerm));
+    }
+
+    switch (sortValue) {
+      case 'rating':
+        filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        break;
+      case 'new':
+        filtered.sort((a, b) => new Date(b.publishedAt || b.updatedAt || 0) - new Date(a.publishedAt || a.updatedAt || 0));
+        break;
+      case 'capacity':
+        filtered.sort((a, b) => (b.capacite || 0) - (a.capacite || 0));
+        break;
+      default:
+        filtered.sort((a, b) => a.orderIndex - b.orderIndex);
+        break;
+    }
+
+    renderFamilies(filtered);
   }
   
   // Fonction pour sauvegarder les données de la famille en session
@@ -1235,88 +1151,231 @@
       console.error('Erreur lors de la sauvegarde en session:', error);
     }
   }
-  
+
+  // Fonction pour charger et afficher les familles depuis localStorage
+  function displayFamiliesFromStorage() {
+    try {
+      const rawFamilies = JSON.parse(localStorage.getItem('familyListings') || '[]');
+      
+      if (!Array.isArray(rawFamilies) || rawFamilies.length === 0) {
+        console.log('Aucune famille trouvée dans localStorage');
+        cachedFamilies = [];
+        renderFamilies([]);
+        return;
+      }
+
+      // Filtrer uniquement les familles publiées
+      const publishedFamilies = rawFamilies.filter(family => 
+        family.published !== false && 
+        family.nomFamille && 
+        family.nomFamille.trim() !== ''
+      );
+
+      // Construire les enregistrements avec les données normalisées
+      cachedFamilies = publishedFamilies.map((family, index) => buildFamilyRecord(family, index));
+
+      console.log(`${cachedFamilies.length} famille(s) chargée(s) depuis localStorage`);
+      
+      // Afficher les familles avec les filtres actuels
+      filterFamilies();
+    } catch (error) {
+      console.error('Erreur lors du chargement des familles:', error);
+      cachedFamilies = [];
+      renderFamilies([]);
+    }
+  }
+
   // Initialisation au chargement de la page
   document.addEventListener('DOMContentLoaded', function() {
-    displayFamiliesFromStorage();
-    
-    // Événements pour les filtres
-    document.getElementById('location').addEventListener('change', filterFamilies);
-    document.getElementById('capacity').addEventListener('change', filterFamilies);
-    
-    // Recherche en temps réel
+    console.log('Chargement de la page families.html');
+    migrateFamilyListings();
+
+    setTimeout(() => {
+      displayFamiliesFromStorage();
+    }, 100);
+
+    const locationFilter = document.getElementById('location');
+    const capacityFilter = document.getElementById('capacity');
     const searchInput = document.getElementById('searchInput');
+    const applyFiltersBtn = document.getElementById('applyFilters');
+    const resetFiltersBtn = document.getElementById('resetFilters');
+    const sortSelect = document.getElementById('familiesSort');
+
+    if (locationFilter) {
+      locationFilter.addEventListener('change', filterFamilies);
+    }
+
+    if (capacityFilter) {
+      capacityFilter.addEventListener('change', filterFamilies);
+    }
+
+    if (sortSelect) {
+      sortSelect.addEventListener('change', filterFamilies);
+    }
+
     if (searchInput) {
       searchInput.addEventListener('input', filterFamilies);
     }
-    
-    // Bouton appliquer les filtres
-    const applyFiltersBtn = document.getElementById('applyFilters');
+
+    document.querySelectorAll('.equipment-filter, .activity-filter').forEach(input => {
+      input.addEventListener('change', filterFamilies);
+    });
+
     if (applyFiltersBtn) {
       applyFiltersBtn.addEventListener('click', filterFamilies);
     }
-    
-    // Bouton réinitialiser
-    const resetFiltersBtn = document.getElementById('resetFilters');
+
     if (resetFiltersBtn) {
       resetFiltersBtn.addEventListener('click', function() {
-        document.getElementById('location').value = 'Toutes les régions';
-        document.getElementById('capacity').value = 'Toutes capacités';
+        if (locationFilter) locationFilter.value = '';
+        if (capacityFilter) capacityFilter.value = '';
         if (searchInput) searchInput.value = '';
-        displayFamiliesFromStorage();
+        if (sortSelect) sortSelect.value = 'relevance';
+        document.querySelectorAll('.equipment-filter:checked, .activity-filter:checked').forEach(input => {
+          input.checked = false;
+        });
+        filterFamilies();
       });
     }
   });
+
+  // Test function pour debug
+  function testImagePaths() {
+    const families = JSON.parse(localStorage.getItem('familyListings')) || [];
+    console.log('=== TEST DES CHEMINS D\'IMAGES ===');
+    families.forEach((family, index) => {
+      const rawImage = family.image || 'Aucune image';
+      const correctedImage = getCorrectImagePath(rawImage);
+      console.log(`Famille ${index + 1}:`, {
+        nom: family.nomFamille,
+        imageOriginale: rawImage,
+        imageCorrigée: correctedImage
+      });
+    });
+  }
 
   // Initialisation des données des familles (pour la démo)
   function initializeFamiliesData() {
     const familiesData = [
       {
         id: 1,
-        nomFamille: "Famille Diatta",
-        localisation: "Ziguinchor, Sénégal",
-        presentation: "La famille Diatta vous accueille dans leur maison traditionnelle au cœur d'un village typique. Expérience culturelle garantie avec des repas authentiques et des activités traditionnelles.",
+        nomFamille: "Famille Dieng",
+        localisation: "Mbour, Sénégal",
+        presentation: "La famille Dieng vous accueille dans leur maison traditionnelle au cœur d'un village typique. Expérience culturelle garantie avec des repas authentiques et des activités traditionnelles.",
         capacite: 4,
         equipements: "Wi-Fi, Salle de bain privée, Climatisation, Terrasse, Jardin",
         activites: "Cuisine locale, Visite village, Atelier artisanat, Découverte culturelle",
-        tarif: 12000,
-        image: "assets/images/3.jpg",
+        images: ["3.jpg"],
         rating: 4.5,
         reviews: 12,
         isNew: true,
         dateDebut: "2024-01-01",
-        dateFin: "2024-12-31"
+        dateFin: "2024-12-31",
+        published: true
       },
       {
         id: 2,
         nomFamille: "Famille Sané",
-        localisation: "Cap Skirring, Sénégal",
+        localisation: "Cap Skirring, Casamance",
         presentation: "Maison moderne près des plages de Cap Skirring. Idéal pour les amoureux de la mer et de tranquillité. Profitez de la vue sur l'océan et des plages paradisiaques.",
         capacite: 2,
         equipements: "Climatisation, Piscine, Wi-Fi, Salle de bain privée, Balcon",
         activites: "Excursions nature, Plage, Pêche, Sports nautiques",
-        tarif: 15000,
-        image: "assets/images/6.jpg",
+        images: ["6.jpg"],
         rating: 5,
         reviews: 8,
         isNew: false,
         dateDebut: "2024-01-01",
-        dateFin: "2024-12-31"
+        dateFin: "2024-12-31",
+        published: true
+      },
+      {
+        id: 3,
+        nomFamille: "Famille Fall",
+        localisation: "Dakar, Senegal",
+        presentation: "Grande famille traditionnelle proposant des activités culturelles et des repas typiques. Découvrez les traditions ancestrales de la Casamance dans un environnement authentique.",
+        capacite: 6,
+        equipements: "Salle de bain partagée, Ventilateur, Terrasse, Jardin potager",
+        activites: "Cuisine locale, Visite village, Atelier artisanat, Danse traditionnelle",
+        images: ["4.jpg"],
+        rating: 4.0,
+        reviews: 5,
+        isNew: true,
+        dateDebut: "2024-01-01",
+        dateFin: "2024-12-31",
+        published: true
+      },
+      {
+        id: 4,
+        nomFamille: "Famille Thiam",
+        localisation: "Somone, Senegal",
+        presentation: "Accueil chaleureux dans un cadre naturel préservé. Possibilité d'excursions en forêt et de découverte de la faune locale. Maison traditionnelle entourée de verdure.",
+        capacite: 3,
+        equipements: "Salle de bain privée, Ventilateur, Terrasse, Parking",
+        activites: "Excursions nature, Randonnée, Observation faune, Découverte botanique",
+        images: ["casa2.png"],
+        rating: 4.5,
+        reviews: 7,
+        isNew: false,
+        dateDebut: "2024-01-01",
+        dateFin: "2024-12-31",
+        published: true
+      },
+      {
+        id: 5,
+        nomFamille: "Famille Ndiaye",
+        localisation: "Guereo, Sine Saloum, Senegal",
+        presentation: "Maison sur pilotis au bord du fleuve. Expérience unique de pêche et de découverte de la mangrove. Vivez au rythme du fleuve et découvrez les secrets de la pêche traditionnelle.",
+        capacite: 5,
+        equipements: "Salle de bain privée, Ventilateur, Terrasse sur pilotis, Embarcadère",
+        activites: "Pêche traditionnelle, Découverte mangrove, Balade en pirogue, Cuisine locale",
+        images: ["8.jpg"],
+        rating: 5.0,
+        reviews: 10,
+        isNew: false,
+        dateDebut: "2024-01-01",
+        dateFin: "2024-12-31",
+        published: true
+      },
+      {
+        id: 6,
+        nomFamille: "Famille Coly",
+        localisation: "Ziguinchor, Casamance",
+        presentation: "Famille jeune et dynamique proposant des activités sportives et culturelles. Idéal pour les voyageurs actifs qui souhaitent découvrir la Casamance de manière moderne.",
+        capacite: 4,
+        equipements: "Wi-Fi, Salle de bain privée, Climatisation, Terrasse, Espace sport",
+        activites: "Sports locaux, Visite culturelle, Atelier cuisine, Découverte urbaine",
+        images: ["5.jpg"],
+        rating: 4.0,
+        reviews: 6,
+        isNew: false,
+        dateDebut: "2024-01-01",
+        dateFin: "2024-12-31",
+        published: true
       }
     ];
     
-    // Ne pas écraser les données existantes
-    const existingFamilies = JSON.parse(localStorage.getItem('familyListings') || '[]');
-    if (existingFamilies.length === 0) {
-      localStorage.setItem('familyListings', JSON.stringify(familiesData));
-    }
-    return familiesData;
+    // Ajouter les chemins d'images complets
+    const familiesWithImages = familiesData.map(family => ({
+      ...family,
+      image: `assets/images/${family.images[0]}`
+    }));
+    
+    localStorage.setItem('familyListings', JSON.stringify(familiesWithImages));
+    console.log('Données initialisées:', familiesWithImages);
+    return familiesWithImages;
   }
 
   // Initialiser les données au chargement si nécessaire
   if (!localStorage.getItem('familyListings')) {
+    console.log('Initialisation des données par défaut');
     initializeFamiliesData();
+  } else {
+    console.log('Données existantes trouvées dans localStorage');
   }
+
+  // Exécuter le test des chemins d'images
+  setTimeout(() => {
+    testImagePaths();
+  }, 500);
 </script>
-</body>
-</html>

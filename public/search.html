@@ -11,7 +11,7 @@
   <link rel="shortcut icon" href="../public/assets/images/logo_casahome.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- Script Lottie pour l'animation du chatbot -->
-  <script src="https://unpkg.com/@lottiefiles/dotlottie-web@latest/dist/dotlottie-web.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
   <style>
     :root {
       --primary-blue: #2AA4CD;
@@ -231,7 +231,7 @@
     <!-- Barre de recherche principale -->
     <div class="card shadow-sm mb-5">
       <div class="card-body p-4">
-        <form>
+        <form id="searchForm">
           <div class="row g-3">
             <div class="col-md-6">
               <label for="searchQuery" class="form-label">Que recherchez-vous ?</label>
@@ -240,24 +240,24 @@
             <div class="col-md-3">
               <label for="location" class="form-label">Région</label>
               <select class="form-select form-select-lg" id="location">
-                <option selected>Tout le Sénégal</option>
-                <option>Dakar</option>
-                <option>Saint-Louis</option>
-                <option>Casamance</option>
-                <option>Petite Côte</option>
-                <option>Sine-Saloum</option>
-                <option>Cap Skiring</option>
+                <option value="" selected>Tout le Sénégal</option>
+                <option value="Dakar">Dakar</option>
+                <option value="Saint-Louis">Saint-Louis</option>
+                <option value="Casamance">Casamance</option>
+                <option value="Petite Côte">Petite Côte</option>
+                <option value="Sine-Saloum">Sine-Saloum</option>
+                <option value="Cap Skiring">Cap Skirring</option>
               </select>
             </div>
             <div class="col-md-3">
               <label for="category" class="form-label">Catégorie</label>
               <select class="form-select form-select-lg" id="category">
-                <option selected>Toutes catégories</option>
-                <option>Hébergement</option>
-                <option>Activité</option>
-                <option>Site touristique</option>
-                <option>Guide local</option>
-                <option>Atelier</option>
+                <option value="" selected>Toutes catégories</option>
+                <option value="hebergement">Hébergement</option>
+                <option value="activite">Activité</option>
+                <option value="destination">Site touristique</option>
+                <option value="guide">Guide local</option>
+                <option value="atelier">Atelier</option>
               </select>
             </div>
           </div>
@@ -403,19 +403,19 @@
           <div class="mb-4">
             <label class="form-label">Type d'expérience</label>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="type1" checked>
+              <input class="form-check-input type-filter" type="checkbox" id="type1" value="hebergement" checked>
               <label class="form-check-label" for="type1">Hébergement</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="type2" checked>
+              <input class="form-check-input type-filter" type="checkbox" id="type2" value="activite" checked>
               <label class="form-check-label" for="type2">Activités</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="type3" checked>
+              <input class="form-check-input type-filter" type="checkbox" id="type3" value="guide" checked>
               <label class="form-check-label" for="type3">Guides</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="type4" checked>
+              <input class="form-check-input type-filter" type="checkbox" id="type4" value="destination" checked>
               <label class="form-check-label" for="type4">Sites touristiques</label>
             </div>
           </div>
@@ -432,19 +432,19 @@
           <div class="mb-4">
             <label class="form-label">Région</label>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="region1">
+              <input class="form-check-input region-filter" type="checkbox" id="region1" value="Dakar">
               <label class="form-check-label" for="region1">Dakar</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="region2">
+              <input class="form-check-input region-filter" type="checkbox" id="region2" value="Saint-Louis">
               <label class="form-check-label" for="region2">Saint-Louis</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="region3">
+              <input class="form-check-input region-filter" type="checkbox" id="region3" value="Casamance">
               <label class="form-check-label" for="region3">Casamance</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="region4">
+              <input class="form-check-input region-filter" type="checkbox" id="region4" value="Petite Côte">
               <label class="form-check-label" for="region4">Petite Côte</label>
             </div>
           </div>
@@ -452,138 +452,47 @@
           <div class="mb-4">
             <label class="form-label">Équipements</label>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="equipment1">
+              <input class="form-check-input search-equipment-filter" type="checkbox" id="equipment1" value="Salle de bain privée">
               <label class="form-check-label" for="equipment1">Salle de bain privée</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="equipment2">
+              <input class="form-check-input search-equipment-filter" type="checkbox" id="equipment2" value="Climatisation">
               <label class="form-check-label" for="equipment2">Climatisation</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="equipment3">
+              <input class="form-check-input search-equipment-filter" type="checkbox" id="equipment3" value="Wi-Fi">
               <label class="form-check-label" for="equipment3">Wi-Fi</label>
             </div>
           </div>
           
-          <button class="btn btn-primary w-100">Appliquer les filtres</button>
+          <button class="btn btn-primary w-100" id="searchApplyFilters">Appliquer les filtres</button>
         </div>
       </div>
       
       <!-- Résultats -->
       <div class="col-lg-9">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
           <h2 class="h4 fw-bold mb-0">Résultats de recherche</h2>
-          <div>
-            <select class="form-select" style="width: auto;">
-              <option selected>Trier par : Pertinence</option>
-              <option>Prix croissant</option>
-              <option>Prix décroissant</option>
-              <option>Meilleures notes</option>
+          <div class="d-flex align-items-center gap-2">
+            <span class="text-muted small">Trier par :</span>
+            <select class="form-select" style="width: auto;" id="searchSort">
+              <option value="relevance" selected>Pertinence</option>
+              <option value="rating">Meilleures notes</option>
+              <option value="popular">Popularité</option>
+              <option value="alphabetic">Ordre alphabétique</option>
+              <option value="duration">Durée</option>
             </select>
           </div>
         </div>
-        
-        <!-- Résultat 1 -->
-        <div class="card search-card mb-4">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="../public/assets/images/sl-tradi.jpg" class="img-fluid rounded-start h-100" alt="Maison traditionnelle">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <div class="d-flex justify-content-between">
-                  <h5 class="card-title">Maison traditionnelle à Saint-Louis</h5>
-                  <span class="badge">Non disponible</span>
-                </div>
-                <p class="text-muted"><i class="bi bi-geo-alt-fill text-primary"></i> Saint-Louis, Sénégal</p>
-                <div class="rating mb-2 text-warning">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-half"></i>
-                  <span class="text-muted ms-1">(12 avis)</span>
-                </div>
-                <p class="card-text">Magnifique maison traditionnelle avec cour intérieure. Capacité 4 personnes. Propose des ateliers de cuisine locale.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <span class="badge bg-light text-dark me-2"><i class="bi bi-people me-1"></i>4 pers.</span>
-                    <span class="badge bg-light text-dark me-2"><i class="bi bi-droplet me-1"></i>Douche</span>
-                    <span class="badge bg-light text-dark"><i class="bi bi-wifi me-1"></i>Wi-Fi</span>
-                  </div>
-                  <a href="family-details.html" class="btn btn-outline-primary">Voir détails</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Résultat 2 -->
-        <div class="card search-card mb-4">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="../public/assets/images/saly-oiseaux.jpg" class="img-fluid rounded-start h-100" alt="Excursion en pirogue">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <div class="d-flex justify-content-between">
-                  <h5 class="card-title">Excursion en pirogue dans la mangrove</h5>
-                  <span class="badge">Non disponible</span>
-                </div>
-                <p class="text-muted"><i class="bi bi-geo-alt-fill text-primary"></i> Saly, Sénégal</p>
-                <div class="rating mb-2 text-warning">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <span class="text-muted ms-1">(8 avis)</span>
-                </div>
-                <p class="card-text">Découverte de la mangrove avec guide local. Durée 3h. Départ matinal pour observer les oiseaux.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <span class="badge bg-light text-dark me-2"><i class="bi bi-clock me-1"></i>3h</span>
-                    <span class="badge bg-light text-dark"><i class="bi bi-translate me-1"></i>Français</span>
-                  </div>
-                  <a href="activity-details.html" class="btn btn-outline-primary">Voir détails</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Résultat 3 -->
-        <div class="card search-card mb-4">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="../public/assets/images/1.jpg" class="img-fluid rounded-start h-100" alt="Guide local">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <div class="d-flex justify-content-between">
-                  <h5 class="card-title">Guide local expérimenté</h5>
-                  <span class="badge">Non disponible</span>
-                </div>
-                <p class="text-muted"><i class="bi bi-geo-alt-fill text-primary"></i> Cap Skirring, Casamance</p>
-                <div class="rating mb-2 text-warning">
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star-fill"></i>
-                  <i class="bi bi-star"></i>
-                  <span class="text-muted ms-1">(5 avis)</span>
-                </div>
-                <p class="card-text">Amadou, guide certifié depuis 10 ans, vous fait découvrir les secrets de la Casamance. Parle français et anglais.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <span class="badge bg-light text-dark me-2"><i class="bi bi-translate me-1"></i>Français</span>
-                    <span class="badge bg-light text-dark"><i class="bi bi-translate me-1"></i>Anglais</span>
-                  </div>
-                  <a href="guide-details.html" class="btn btn-outline-primary">Voir détails</a>
-                </div>
-              </div>
-            </div>
-          </div>
+
+        <p class="text-muted small mb-3" id="searchResultsCount">&nbsp;</p>
+
+        <div id="searchResults" class="d-flex flex-column gap-3"></div>
+
+        <div id="searchEmptyState" class="text-center py-5 d-none">
+          <i class="bi bi-search text-primary" style="font-size: 2.5rem;"></i>
+          <p class="mt-3 mb-1 fw-semibold">Aucun résultat ne correspond à votre recherche.</p>
+          <p class="text-muted small mb-0">Ajustez vos filtres ou essayez d'autres mots-clés.</p>
         </div>
         
         <!-- Carte interactive -->
@@ -675,29 +584,24 @@
     </div>
   </footer>
 
-  <!-- Chatbot Widget avec Lottie -->
-  <div id="chatbot-bubble" style="position: fixed; bottom: 32px; right: 32px; z-index: 9999; background: #2AA4CD; border-radius: 50px; box-shadow: 0 4px 16px rgba(0,0,0,.1); width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden;">
-    <dotlottie-player 
+  <!-- Chatbot Widget avec animation Lottie -->
+  <div id="chatbot-bubble" style="position: fixed; bottom: 32px; right: 32px; z-index: 9999; background: #2AA4CD; border-radius: 50px; box-shadow: 0 4px 16px rgba(0,0,0,.1); width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+    <dotlottie-wc 
       src="https://lottie.host/d63e8e4e-633b-49e6-a2b1-d4cb02b9229f/uuRubT9e46.lottie" 
-      background="transparent" 
-      speed="1" 
       style="width: 58px; height: 58px;" 
-      loop 
-      autoplay>
-    </dotlottie-player>
+      autoplay 
+      loop>
+    </dotlottie-wc>
   </div>
-  
   <div id="chatbot-window" style="display:none; position: fixed; bottom: 110px; right: 32px; width:350px; max-width:90vw; height:440px; background:#fff; z-index:10000; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.17); border:1px solid #eee; overflow:hidden; flex-direction:column;">
     <div style="background:#2AA4CD; color:#fff; padding:16px; display:flex; align-items:center; justify-content:space-between;">
       <div style="display:flex; align-items:center;">
-        <dotlottie-player 
+        <dotlottie-wc 
           src="https://lottie.host/d63e8e4e-633b-49e6-a2b1-d4cb02b9229f/uuRubT9e46.lottie" 
-          background="transparent" 
-          speed="1" 
-          style="width: 32px; height: 32px; margin-right: 12px;" 
-          loop 
-          autoplay>
-        </dotlottie-player>
+          style="width: 32px; height: 32px; margin-right:12px;" 
+          autoplay 
+          loop>
+        </dotlottie-wc>
         <span style="font-weight:bold;">Guide Teranga</span>
       </div>
       <button id="chatbot-close" style="background:none; border:none; color:#fff; font-size:22px; cursor:pointer;">&times;</button>
@@ -935,8 +839,411 @@
       }, 800);
     }
 
-    // Initialisation
-    showWelcome();
+    // --- Recherche dynamique ---
+    const typeLabels = {
+      hebergement: 'Hébergement',
+      activite: 'Activité',
+      guide: 'Guide',
+      destination: 'Site touristique',
+      atelier: 'Atelier'
+    };
+
+    const staticSearchItems = [
+      {
+        id: 'static-hebergement-1',
+        type: 'hebergement',
+        category: 'hebergement',
+        title: 'Maison traditionnelle à Saint-Louis',
+        location: 'Saint-Louis, Sénégal',
+        region: 'Saint-Louis',
+        description: 'Magnifique maison traditionnelle avec cour intérieure. Capacité 4 personnes. Propose des ateliers de cuisine locale.',
+        rating: 4.5,
+        reviews: 12,
+        capacity: 4,
+        equipements: ['Douche', 'Wi-Fi'],
+        activites: ['Cuisine locale'],
+        languages: ['Français'],
+        durationHours: null,
+        image: '../public/assets/images/sl-tradi.jpg',
+        link: 'family-details.html?id=1',
+        availability: 'Non disponible'
+      },
+      {
+        id: 'static-activite-1',
+        type: 'activite',
+        category: 'activite',
+        title: 'Excursion en pirogue dans la mangrove',
+        location: 'Saly, Sénégal',
+        region: 'Petite Côte',
+        description: 'Découverte de la mangrove avec guide local. Durée 3h. Départ matinal pour observer les oiseaux.',
+        rating: 5,
+        reviews: 8,
+        capacity: null,
+        equipements: [],
+        activites: ['Observation des oiseaux'],
+        languages: ['Français'],
+        durationHours: 3,
+        image: '../public/assets/images/saly-oiseaux.jpg',
+        link: 'activity-details.html',
+        availability: 'Sur réservation'
+      },
+      {
+        id: 'static-guide-1',
+        type: 'guide',
+        category: 'guide',
+        title: 'Guide local expérimenté',
+        location: 'Cap Skirring, Casamance',
+        region: 'Casamance',
+        description: 'Amadou, guide certifié depuis 10 ans, vous fait découvrir les secrets de la Casamance. Parle français et anglais.',
+        rating: 4.4,
+        reviews: 5,
+        capacity: null,
+        equipements: [],
+        activites: [],
+        languages: ['Français', 'Anglais'],
+        durationHours: null,
+        image: '../public/assets/images/1.jpg',
+        link: 'guide-details.html',
+        availability: 'Sur demande'
+      },
+      {
+        id: 'static-destination-1',
+        type: 'destination',
+        category: 'destination',
+        title: 'Île de Gorée - Patrimoine mondial',
+        location: 'Dakar, Sénégal',
+        region: 'Dakar',
+        description: 'Visite du site historique de l\'île de Gorée, ses musées et ruelles colorées classés UNESCO.',
+        rating: 4.8,
+        reviews: 42,
+        capacity: null,
+        equipements: [],
+        activites: ['Musées', 'Patrimoine'],
+        languages: [],
+        durationHours: 4,
+        image: 'assets/images/dakar.jpg',
+        link: 'destination-details.html',
+        availability: 'Ouvert toute l\'année'
+      }
+    ];
+
+    let searchDataset = [];
+    let searchInputDebounce;
+
+    function normalizeSearchArray(value) {
+      if (!value) return [];
+      if (Array.isArray(value)) {
+        return value.map(item => item != null ? String(item).trim() : '').filter(Boolean);
+      }
+      return String(value)
+        .split(',')
+        .map(item => item.trim())
+        .filter(Boolean);
+    }
+
+    function normalizeImagePath(rawImage) {
+      if (!rawImage) return 'assets/images/placeholder.jpg';
+      if (rawImage.startsWith('data:')) return rawImage;
+
+      let img = rawImage;
+      if (img.startsWith('../public/')) img = img.replace('../public/', '');
+      if (img.startsWith('./')) img = img.substring(2);
+      if (img.startsWith('/')) img = img.substring(1);
+
+      if (!img.startsWith('assets/') && !img.startsWith('http')) {
+        img = `assets/${img}`;
+      }
+
+      return img;
+    }
+
+    function normalizeSearchItem(item, index) {
+      const equipements = normalizeSearchArray(item.equipements);
+      const activites = normalizeSearchArray(item.activites);
+      const languages = normalizeSearchArray(item.languages);
+      const region = item.region || (item.location ? item.location.split(',')[0].trim() : '');
+
+      return {
+        ...item,
+        orderIndex: index,
+        equipements,
+        activites,
+        languages,
+        region,
+        image: normalizeImagePath(item.image),
+        searchIndex: [
+          item.title || '',
+          item.location || '',
+          region,
+          item.description || '',
+          equipements.join(' '),
+          activites.join(' '),
+          languages.join(' ')
+        ].join(' ').toLowerCase()
+      };
+    }
+
+    function getFamiliesSearchItems(baseIndex) {
+      const listings = JSON.parse(localStorage.getItem('familyListings') || '[]');
+
+      return listings
+        .filter(family => family.nomFamille && family.nomFamille.trim() !== '' && family.published !== false)
+        .map((family, idx) => normalizeSearchItem({
+          id: `family-${family.id}`,
+          type: 'hebergement',
+          category: 'hebergement',
+          title: family.nomFamille,
+          location: family.localisation || '',
+          region: family.localisation ? family.localisation.split(',')[0].trim() : '',
+          description: family.presentation || 'Famille d\'accueil chaleureuse vous proposant un séjour authentique.',
+          rating: family.rating || 0,
+          reviews: family.reviews || 0,
+          capacity: Number.isFinite(parseInt(family.capacite, 10)) ? parseInt(family.capacite, 10) : null,
+          equipements: family.equipements,
+          activites: family.activites,
+          languages: [],
+          durationHours: null,
+          image: family.image || (family.images && family.images[0]) || '',
+          link: `family-details.html?id=${family.id}`,
+          availability: family.dateDebut ? 'Disponible' : 'Sur demande',
+          publishedAt: family.publishedAt || family.updatedAt || ''
+        }, baseIndex + idx));
+    }
+
+    function refreshSearchDataset() {
+      const staticItems = staticSearchItems.map((item, index) => normalizeSearchItem(item, index));
+      const familiesItems = getFamiliesSearchItems(staticItems.length);
+      searchDataset = [...staticItems, ...familiesItems];
+    }
+
+    function renderSearchResults(results) {
+      const container = document.getElementById('searchResults');
+      const emptyState = document.getElementById('searchEmptyState');
+      const countEl = document.getElementById('searchResultsCount');
+
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      if (countEl) {
+        const total = results.length;
+        countEl.textContent = total
+          ? `${total} résultat${total > 1 ? 's' : ''} trouvé${total > 1 ? 's' : ''}`
+          : 'Aucun résultat pour le moment';
+      }
+
+      if (!results.length) {
+        if (emptyState) emptyState.classList.remove('d-none');
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add('d-none');
+
+      results.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card search-card';
+
+        const ratingStars = generateRatingStars(item.rating || 0);
+        const badgeLabel = typeLabels[item.type] || 'Expérience';
+        const availabilityLabel = item.availability || 'Disponible';
+
+        const infoBadges = [];
+        if (item.capacity) {
+          infoBadges.push(`<span class="badge bg-light text-dark me-2"><i class="bi bi-people me-1"></i>${item.capacity} pers.</span>`);
+        }
+        if (item.durationHours) {
+          infoBadges.push(`<span class="badge bg-light text-dark me-2"><i class="bi bi-clock me-1"></i>${item.durationHours}h</span>`);
+        }
+        if (item.languages && item.languages.length) {
+          infoBadges.push(`<span class="badge bg-light text-dark me-2"><i class="bi bi-translate me-1"></i>${item.languages.join(', ')}</span>`);
+        }
+
+        const extraTags = [...item.equipements.slice(0, 2), ...item.activites.slice(0, 2)]
+          .map(tag => `<span class="badge bg-primary bg-opacity-10 text-primary me-1 mb-1">${tag}</span>`)
+          .join('');
+
+        card.innerHTML = `
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="${normalizeImagePath(item.image)}" class="img-fluid rounded-start h-100" alt="${item.title}" loading="lazy">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 class="card-title mb-1">${item.title}</h5>
+                    <span class="badge bg-primary bg-opacity-10 text-primary">${badgeLabel}</span>
+                  </div>
+                  <span class="badge bg-secondary">${availabilityLabel}</span>
+                </div>
+                <p class="text-muted mb-2"><i class="bi bi-geo-alt-fill text-primary me-1"></i>${item.location || 'Localisation en cours de mise à jour'}</p>
+                <div class="rating mb-2 text-warning">
+                  ${ratingStars}
+                  <span class="text-muted small ms-1">(${item.reviews || 0} avis)</span>
+                </div>
+                <p class="card-text">${item.description || ''}</p>
+                <div class="d-flex flex-wrap align-items-center mb-3">
+                  ${infoBadges.join('')}
+                </div>
+                <div class="d-flex flex-wrap gap-1 mb-3">
+                  ${extraTags}
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-muted small">${item.region || 'Sénégal'}</span>
+                  <a href="${item.link}" class="btn btn-outline-primary btn-sm">Voir détails</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function applySearchFilters(event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      refreshSearchDataset();
+
+      const queryInput = document.getElementById('searchQuery');
+      const locationSelect = document.getElementById('location');
+      const categorySelect = document.getElementById('category');
+      const typeFilters = Array.from(document.querySelectorAll('.type-filter:checked')).map(cb => cb.value);
+      const regionFilters = Array.from(document.querySelectorAll('.region-filter:checked')).map(cb => cb.value.toLowerCase());
+      const equipmentFilters = Array.from(document.querySelectorAll('.search-equipment-filter:checked')).map(cb => cb.value.toLowerCase());
+      const sortSelect = document.getElementById('searchSort');
+
+      const query = queryInput ? queryInput.value.trim().toLowerCase() : '';
+      const locationValue = locationSelect ? locationSelect.value.trim().toLowerCase() : '';
+      const categoryValue = categorySelect ? categorySelect.value : '';
+      const sortValue = sortSelect ? sortSelect.value : 'relevance';
+
+      let results = searchDataset.slice();
+
+      if (query) {
+        results = results.filter(item => item.searchIndex.includes(query));
+      }
+
+      if (locationValue) {
+        results = results.filter(item =>
+          (item.location && item.location.toLowerCase().includes(locationValue)) ||
+          (item.region && item.region.toLowerCase().includes(locationValue))
+        );
+      }
+
+      if (categoryValue) {
+        results = results.filter(item => item.type === categoryValue || item.category === categoryValue);
+      }
+
+      if (typeFilters.length) {
+        results = results.filter(item => typeFilters.includes(item.type));
+      }
+
+      if (regionFilters.length) {
+        results = results.filter(item => {
+          const regionLower = (item.region || '').toLowerCase();
+          return regionFilters.some(region => regionLower.includes(region));
+        });
+      }
+
+      if (equipmentFilters.length) {
+        results = results.filter(item =>
+          equipmentFilters.every(eq =>
+            item.equipements.some(equipment => equipment.toLowerCase().includes(eq))
+          )
+        );
+      }
+
+      switch (sortValue) {
+        case 'rating':
+          results.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+          break;
+        case 'popular':
+          results.sort((a, b) => (b.reviews || 0) - (a.reviews || 0));
+          break;
+        case 'alphabetic':
+          results.sort((a, b) => a.title.localeCompare(b.title));
+          break;
+        case 'duration':
+          results.sort((a, b) => {
+            const aDuration = a.durationHours != null ? a.durationHours : Number.MAX_VALUE;
+            const bDuration = b.durationHours != null ? b.durationHours : Number.MAX_VALUE;
+            return aDuration - bDuration;
+          });
+          break;
+        default:
+          results.sort((a, b) => a.orderIndex - b.orderIndex);
+          break;
+      }
+
+      renderSearchResults(results);
+    }
+
+    function handleSearchInputDebounce() {
+      clearTimeout(searchInputDebounce);
+      searchInputDebounce = setTimeout(applySearchFilters, 250);
+    }
+
+    function generateRatingStars(rating) {
+      const fullStars = Math.floor(rating);
+      const hasHalfStar = rating % 1 >= 0.5;
+      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+      let stars = '';
+
+      for (let i = 0; i < fullStars; i++) {
+        stars += '<i class="bi bi-star-fill"></i>';
+      }
+
+      if (hasHalfStar) {
+        stars += '<i class="bi bi-star-half"></i>';
+      }
+
+      for (let i = 0; i < emptyStars; i++) {
+        stars += '<i class="bi bi-star"></i>';
+      }
+
+      return stars;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchForm = document.getElementById('searchForm');
+      const searchApplyFiltersBtn = document.getElementById('searchApplyFilters');
+      const searchSortSelect = document.getElementById('searchSort');
+      const searchQueryInput = document.getElementById('searchQuery');
+      const locationSelect = document.getElementById('location');
+      const categorySelect = document.getElementById('category');
+
+      refreshSearchDataset();
+      applySearchFilters();
+
+      if (searchForm) {
+        searchForm.addEventListener('submit', applySearchFilters);
+      }
+
+      if (searchApplyFiltersBtn) {
+        searchApplyFiltersBtn.addEventListener('click', applySearchFilters);
+      }
+
+      if (searchSortSelect) {
+        searchSortSelect.addEventListener('change', applySearchFilters);
+      }
+
+      if (searchQueryInput) {
+        searchQueryInput.addEventListener('input', handleSearchInputDebounce);
+      }
+
+      [locationSelect, categorySelect].forEach(select => {
+        if (select) select.addEventListener('change', applySearchFilters);
+      });
+
+      document.querySelectorAll('.type-filter, .region-filter, .search-equipment-filter').forEach(input => {
+        input.addEventListener('change', applySearchFilters);
+      });
+    });
   </script>
 </body>
 </html>

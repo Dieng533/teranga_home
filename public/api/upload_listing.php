@@ -41,11 +41,10 @@ $equipements  = sanitize_text($_POST['equipements'] ?? '');
 $activites    = sanitize_text($_POST['activites'] ?? '');
 $dateDebut    = sanitize_text($_POST['dateDebut'] ?? '');
 $dateFin      = sanitize_text($_POST['dateFin'] ?? '');
-$tarif        = intval($_POST['tarif'] ?? -1);
 $conditions   = sanitize_text($_POST['conditions'] ?? '');
 $ownerEmail   = sanitize_text($_POST['ownerEmail'] ?? '');
 
-if ($nomFamille === '' || $localisation === '' || $capacite < 1 || $tarif < 0 || $dateDebut === '') {
+if ($nomFamille === '' || $localisation === '' || $capacite < 1 || $dateDebut === '') {
   json_error('Champs requis manquants ou invalides.');
 }
 
@@ -85,7 +84,6 @@ $listing = [
   'activites' => $activites,
   'dateDebut' => $dateDebut,
   'dateFin' => $dateFin,
-  'tarif' => $tarif,
   'conditions' => $conditions,
   'createdAt' => date('c'),
   'updatedAt' => date('c')

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Politique de confidentialité - Teranga Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f8fb;
+      color: #1f2933;
+    }
+
+    .navbar-branding {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    main {
+      padding: 3rem 0;
+    }
+
+    h1 {
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      margin-top: 2rem;
+      color: #2AA4CD;
+    }
+
+    .site-footer {
+      background-color: #2AA4CD;
+      color: white;
+    }
+
+    .site-footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .site-footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-branding sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">
+        <img src="assets/images/logo_casahome.png" alt="Teranga Home" height="48">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="families.html">Familles</a></li>
+          <li class="nav-item"><a class="nav-link" href="search.html">Recherche</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+        <div class="d-flex">
+          <a class="btn btn-outline-primary" href="login.html">Connexion</a>
+          <a class="btn btn-primary ms-2" href="register.html">Inscription</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <h1 class="mb-4">Politique de confidentialité</h1>
+          <p class="text-muted">Nous protégeons vos données et respectons votre vie privée.</p>
+
+          <h2>Données collectées</h2>
+          <p>Nous collectons uniquement les informations nécessaires à la préparation de votre séjour : identité, coordonnées, préférences de voyage. Ces données sont fournies par vous lors de l'inscription ou de la demande de réservation.</p>
+
+          <h2>Utilisation des données</h2>
+          <p>Vos informations permettent : (i) la mise en relation avec la famille d'accueil, (ii) le suivi de la réservation, (iii) l'envoi d'informations utiles pour votre venue, (iv) des statistiques anonymisées pour améliorer la plateforme.</p>
+
+          <h2>Partage et conservation</h2>
+          <p>Les données sont partagées exclusivement avec la famille sélectionnée et l'équipe Teranga Home. Nous ne vendons ni ne louons vos informations. Elles sont conservées pendant la durée nécessaire au suivi de la relation, puis archivées ou supprimées.</p>
+
+          <h2>Vos droits</h2>
+          <p>Vous pouvez à tout moment demander l'accès, la rectification ou la suppression de vos données personnelles en écrivant à <a href="mailto:privacy@terangahome.sn">privacy@terangahome.sn</a>. Un accusé de réception vous est adressé sous 48h.</p>
+
+          <h2>Sécurité</h2>
+          <p>Nous mettons en œuvre des mesures techniques et organisationnelles adaptées (chiffrement, contrôle d'accès, sauvegardes) pour protéger vos informations contre tout accès non autorisé.</p>
+
+          <p class="mt-4">Pour toute autre question relative aux données personnelles, contactez notre délégué à la protection des données : <a href="mailto:dpo@terangahome.sn">dpo@terangahome.sn</a>.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer mt-5">
+    <div class="container py-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
+      <div>&copy; <span id="year"></span> Teranga Home. Tous droits réservés.</div>
+      <div class="d-flex gap-3 mt-3 mt-md-0">
+        <a href="families.html">Familles</a>
+        <a href="contact.html">Contact</a>
+        <a href="terms.html">Conditions</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
+

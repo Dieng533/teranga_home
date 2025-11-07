@@ -11,7 +11,7 @@
   <link rel="shortcut icon" href="../public/assets/images/logo_casahome.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- Script Lottie pour l'animation du chatbot -->
-  <script src="https://unpkg.com/@lottiefiles/dotlottie-web@latest/dist/dotlottie-web.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
   <style>
     :root {
       --primary-blue: #2AA4CD;
@@ -413,29 +413,24 @@
     </div>
   </footer>
 
-  <!-- Chatbot Widget avec Lottie -->
-  <div id="chatbot-bubble" style="position: fixed; bottom: 32px; right: 32px; z-index: 9999; background: #2AA4CD; border-radius: 50px; box-shadow: 0 4px 16px rgba(0,0,0,.1); width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden;">
-    <dotlottie-player 
+  <!-- Chatbot Widget avec animation Lottie -->
+  <div id="chatbot-bubble" style="position: fixed; bottom: 32px; right: 32px; z-index: 9999; background: #2AA4CD; border-radius: 50px; box-shadow: 0 4px 16px rgba(0,0,0,.1); width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+    <dotlottie-wc 
       src="https://lottie.host/d63e8e4e-633b-49e6-a2b1-d4cb02b9229f/uuRubT9e46.lottie" 
-      background="transparent" 
-      speed="1" 
       style="width: 58px; height: 58px;" 
-      loop 
-      autoplay>
-    </dotlottie-player>
+      autoplay 
+      loop>
+    </dotlottie-wc>
   </div>
-  
   <div id="chatbot-window" style="display:none; position: fixed; bottom: 110px; right: 32px; width:350px; max-width:90vw; height:440px; background:#fff; z-index:10000; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.17); border:1px solid #eee; overflow:hidden; flex-direction:column;">
     <div style="background:#2AA4CD; color:#fff; padding:16px; display:flex; align-items:center; justify-content:space-between;">
       <div style="display:flex; align-items:center;">
-        <dotlottie-player 
+        <dotlottie-wc 
           src="https://lottie.host/d63e8e4e-633b-49e6-a2b1-d4cb02b9229f/uuRubT9e46.lottie" 
-          background="transparent" 
-          speed="1" 
-          style="width: 32px; height: 32px; margin-right: 12px;" 
-          loop 
-          autoplay>
-        </dotlottie-player>
+          style="width: 32px; height: 32px; margin-right:12px;" 
+          autoplay 
+          loop>
+        </dotlottie-wc>
         <span style="font-weight:bold;">Guide Teranga</span>
       </div>
       <button id="chatbot-close" style="background:none; border:none; color:#fff; font-size:22px; cursor:pointer;">&times;</button>

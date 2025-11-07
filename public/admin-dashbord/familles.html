@@ -359,10 +359,10 @@
           </div>
         </div>
 
-        <!-- Disponibilités et tarifs -->
+        <!-- Disponibilités -->
         <div class="card section-card mb-4">
           <div class="card-body">
-            <h2 class="section-title">Disponibilités et tarifs</h2>
+            <h2 class="section-title">Disponibilités</h2>
             <form id="formDisponibilites" class="row g-3">
               <div class="col-md-6">
                 <label class="form-label required">Disponible à partir de</label>
@@ -372,11 +372,7 @@
                 <label class="form-label">Jusqu'au</label>
                 <input type="date" class="form-control" name="dateFin">
               </div>
-              <div class="col-md-6">
-                <label class="form-label required">Tarif / journée (FCFA)</label>
-                <input type="number" min="0" class="form-control" name="tarif" required>
-              </div>
-              <div class="col-md-6">
+              <div class="col-12">
                 <label class="form-label">Conditions</label>
                 <input type="text" class="form-control" name="conditions" placeholder="Petit-déjeuner inclus, etc.">
               </div>
@@ -429,6 +425,9 @@
                 <button type="button" class="btn btn-primary" id="publishBtn">
                   <i class="bi bi-check-circle me-1"></i>Publier l'annonce
                 </button>
+                <button type="button" class="btn btn-outline-danger d-none" id="deleteListingBtn">
+                  <i class="bi bi-trash me-1"></i>Supprimer l'annonce
+                </button>
               </div>
             </form>
           </div>
@@ -446,7 +445,6 @@
                   <th>Touriste</th>
                   <th>Période</th>
                   <th>Personnes</th>
-                  <th>Prix total</th>
                   <th>Statut</th>
                   <th class="text-end">Actions</th>
                 </tr>
@@ -553,74 +551,242 @@
       fileList.innerHTML = html;
     });
 
+    // Fonction utilitaire pour lire un fichier en Data URL
+    function readFileAsDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error || new Error('Lecture du fichier échouée'));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function getCurrentUser() {
+      try {
+        return JSON.parse(localStorage.getItem('currentUser') || '{}');
+      } catch (error) {
+        console.warn('Impossible de lire currentUser:', error);
+        return {};
+      }
+    }
+
+    function getCurrentUserEmail() {
+      const user = getCurrentUser();
+      return user && typeof user.email === 'string' ? user.email : null;
+    }
+
+    function getFamilyListings() {
+      try {
+        const raw = localStorage.getItem('familyListings');
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        console.warn('Impossible de lire familyListings:', error);
+        return [];
+      }
+    }
+
+    function saveFamilyListings(listings) {
+      localStorage.setItem('familyListings', JSON.stringify(listings));
+    }
+
+    function findListingIndexByOwner(listings, ownerEmail) {
+      if (!ownerEmail) return -1;
+      return listings.findIndex(family => family && family.ownerEmail === ownerEmail);
+    }
+
+    function populateFormsFromListing(listing) {
+      if (!listing) return;
+
+      const profilForm = document.getElementById('formProfil');
+      const hebergementForm = document.getElementById('formHebergement');
+      const disponibilitesForm = document.getElementById('formDisponibilites');
+      const fileList = document.getElementById('fileList');
+
+      if (profilForm) {
+        if (profilForm.elements['nomFamille']) {
+          profilForm.elements['nomFamille'].value = listing.nomFamille || '';
+        }
+        if (profilForm.elements['localisation']) {
+          profilForm.elements['localisation'].value = listing.localisation || '';
+        }
+        if (profilForm.elements['presentation']) {
+          profilForm.elements['presentation'].value = listing.presentation || '';
+        }
+      }
+
+      if (hebergementForm) {
+        if (hebergementForm.elements['capacite']) {
+          hebergementForm.elements['capacite'].value = listing.capacite || '';
+        }
+        if (hebergementForm.elements['equipements']) {
+          hebergementForm.elements['equipements'].value = Array.isArray(listing.equipements)
+            ? listing.equipements.join(', ')
+            : (listing.equipements || '');
+        }
+        if (hebergementForm.elements['activites']) {
+          hebergementForm.elements['activites'].value = Array.isArray(listing.activites)
+            ? listing.activites.join(', ')
+            : (listing.activites || '');
+        }
+      }
+
+      if (disponibilitesForm) {
+        if (disponibilitesForm.elements['dateDebut']) {
+          disponibilitesForm.elements['dateDebut'].value = listing.dateDebut || '';
+        }
+        if (disponibilitesForm.elements['dateFin']) {
+          disponibilitesForm.elements['dateFin'].value = listing.dateFin || '';
+        }
+        if (disponibilitesForm.elements['conditions']) {
+          disponibilitesForm.elements['conditions'].value = listing.conditions || '';
+        }
+      }
+
+      if (fileList) {
+        const photosCount = Array.isArray(listing.images) ? listing.images.length : 0;
+        if (photosCount > 0) {
+          fileList.textContent = `${photosCount} photo${photosCount > 1 ? 's' : ''} enregistrée${photosCount > 1 ? 's' : ''} (téléversez de nouveaux fichiers pour les remplacer)`;
+        } else {
+          fileList.textContent = 'Aucune photo enregistrée';
+        }
+      }
+    }
+
+    function resetFamilyForms() {
+      const forms = ['formProfil', 'formHebergement', 'formDisponibilites', 'formPhotos'];
+      forms.forEach(id => {
+        const form = document.getElementById(id);
+        if (form) form.reset();
+      });
+
+      const fileList = document.getElementById('fileList');
+      if (fileList) {
+        fileList.textContent = 'Aucun fichier sélectionné';
+      }
+    }
+
+    function updateAnnouncementButtons(listing) {
+      const publishBtn = document.getElementById('publishBtn');
+      const deleteBtn = document.getElementById('deleteListingBtn');
+
+      if (!publishBtn || !deleteBtn) return;
+
+      if (listing) {
+        publishBtn.innerHTML = '<i class="bi bi-save2 me-1"></i>Mettre à jour l\'annonce';
+        deleteBtn.classList.remove('d-none');
+      } else {
+        publishBtn.innerHTML = '<i class="bi bi-check-circle me-1"></i>Publier l\'annonce';
+        deleteBtn.classList.add('d-none');
+      }
+    }
+
     // Fonction pour publier une annonce - VERSION CORRIGÉE
-    function publishFamily() {
+    async function publishFamily() {
       // Récupérer les données des formulaires
       const profilForm = document.getElementById('formProfil');
       const hebergementForm = document.getElementById('formHebergement');
       const disponibilitesForm = document.getElementById('formDisponibilites');
 
+      if (!profilForm || !hebergementForm || !disponibilitesForm) {
+        alert('Formulaire introuvable. Veuillez recharger la page.');
+        return;
+      }
+
       // Validation des champs obligatoires
       if (!profilForm.querySelector('[name="nomFamille"]').value ||
         !profilForm.querySelector('[name="localisation"]').value ||
         !hebergementForm.querySelector('[name="capacite"]').value ||
-        !disponibilitesForm.querySelector('[name="tarif"]').value ||
         !disponibilitesForm.querySelector('[name="dateDebut"]').value) {
         alert('Veuillez remplir tous les champs obligatoires (marqués d\'un *) avant de publier.');
         return;
       }
 
+      const ownerEmail = getCurrentUserEmail();
+      if (!ownerEmail) {
+        alert('Impossible d\'identifier votre compte. Veuillez vous reconnecter.');
+        window.location.href = '../login.html';
+        return;
+      }
+
+      const defaultImage = 'assets/images/placeholder.jpg';
+      const defaultImages = ['placeholder.jpg'];
+
+      // Récupérer les annonces existantes
+      const listings = getFamilyListings();
+      const existingIndex = findListingIndexByOwner(listings, ownerEmail);
+      const existing = existingIndex >= 0 ? listings[existingIndex] : null;
+
+      let uploadedImages = [];
+      const photoInput = document.getElementById('photos');
+
+      if (photoInput && photoInput.files && photoInput.files.length > 0) {
+        try {
+          uploadedImages = await Promise.all(
+            Array.from(photoInput.files).map(file => readFileAsDataURL(file))
+          );
+        } catch (err) {
+          console.error('Erreur lors du traitement des images:', err);
+          alert('Une erreur est survenue lors du traitement des photos. Vos images n\'ont pas été importées.');
+          uploadedImages = [];
+        }
+      }
+
+      let mainImage = existing && existing.image ? existing.image : defaultImage;
+      let images = existing && Array.isArray(existing.images) && existing.images.length > 0
+        ? [...existing.images]
+        : [...defaultImages];
+
+      if (uploadedImages.length > 0) {
+        mainImage = uploadedImages[0];
+        images = uploadedImages;
+      } else if (!existing && images.length === 0) {
+        images = [...defaultImages];
+      } else if (!mainImage) {
+        mainImage = defaultImage;
+      }
+
+      const now = new Date().toISOString();
+
       const familyData = {
-        id: Date.now(),
+        id: existing && existing.id ? existing.id : Date.now(),
+        ownerEmail,
         nomFamille: profilForm.querySelector('[name="nomFamille"]').value,
         localisation: profilForm.querySelector('[name="localisation"]').value,
         presentation: profilForm.querySelector('[name="presentation"]').value || 'Aucune description fournie',
-        capacite: parseInt(hebergementForm.querySelector('[name="capacite"]').value),
+        capacite: parseInt(hebergementForm.querySelector('[name="capacite"]').value, 10) || 0,
         equipements: hebergementForm.querySelector('[name="equipements"]').value || '',
         activites: hebergementForm.querySelector('[name="activites"]').value || '',
         dateDebut: disponibilitesForm.querySelector('[name="dateDebut"]').value,
         dateFin: disponibilitesForm.querySelector('[name="dateFin"]').value || '',
-        tarif: parseInt(disponibilitesForm.querySelector('[name="tarif"]').value),
         conditions: disponibilitesForm.querySelector('[name="conditions"]').value || '',
-        rating: 0,
-        reviews: 0,
-        isNew: true,
-        published: true,
-        publishedAt: new Date().toISOString()
+        rating: existing && typeof existing.rating === 'number' ? existing.rating : 0,
+        reviews: existing && typeof existing.reviews === 'number' ? existing.reviews : 0,
+        isNew: existing ? existing.isNew : true,
+        published: existing ? existing.published !== false : true,
+        publishedAt: existing && existing.publishedAt ? existing.publishedAt : now,
+        updatedAt: now,
+        image: mainImage || defaultImage,
+        images: Array.isArray(images) && images.length ? images : [...defaultImages]
       };
 
-      // Gérer l'image
-      const photoInput = document.getElementById('photos');
-      if (photoInput.files.length > 0) {
-        // Pour la démo, on utilise une image par défaut
-        // Dans un vrai projet, vous uploaderiez l'image vers un serveur
-        familyData.image = '../assets/images/placeholder.jpg';
-      } else {
-        familyData.image = '../assets/images/placeholder.jpg';
-      }
-
-      // Récupérer les annonces existantes
-      let existingFamilies = JSON.parse(localStorage.getItem('familyListings')) || [];
-
-      // Vérifier si cette famille a déjà une annonce
-      const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-      const existingIndex = existingFamilies.findIndex(family =>
-        family.ownerEmail === currentUser.email
-      );
-
       if (existingIndex >= 0) {
-        // Mettre à jour l'annonce existante
-        existingFamilies[existingIndex] = { ...existingFamilies[existingIndex], ...familyData };
+        listings[existingIndex] = {
+          ...existing,
+          ...familyData
+        };
       } else {
-        // Ajouter la nouvelle annonce
-        familyData.ownerEmail = currentUser.email;
-        existingFamilies.push(familyData);
+        listings.push(familyData);
       }
 
-      // Sauvegarder
-      localStorage.setItem('familyListings', JSON.stringify(existingFamilies));
+      saveFamilyListings(listings);
 
-      alert('Annonce publiée avec succès ! Redirection vers la page des familles...');
+      populateFormsFromListing(familyData);
+      updateAnnouncementButtons(familyData);
+
+      alert(existingIndex >= 0
+        ? 'Annonce mise à jour avec succès ! Redirection vers la page des familles...'
+        : 'Annonce publiée avec succès ! Redirection vers la page des familles...');
 
       // Redirection vers la page d'affichage
       setTimeout(() => {
@@ -628,7 +794,65 @@
       }, 1500);
     }
 
+    function deleteFamilyListing() {
+      const ownerEmail = getCurrentUserEmail();
+      if (!ownerEmail) {
+        alert('Impossible d\'identifier votre compte. Veuillez vous reconnecter.');
+        window.location.href = '../login.html';
+        return;
+      }
+
+      const listings = getFamilyListings();
+      const existingIndex = findListingIndexByOwner(listings, ownerEmail);
+
+      if (existingIndex === -1) {
+        alert('Aucune annonce à supprimer.');
+        return;
+      }
+
+      if (!confirm('Confirmez-vous la suppression définitive de votre annonce ?')) {
+        return;
+      }
+
+      const [removed] = listings.splice(existingIndex, 1);
+      saveFamilyListings(listings);
+
+      if (removed && removed.id) {
+        try {
+          sessionStorage.removeItem(`family_${removed.id}`);
+        } catch (error) {
+          console.warn('Impossible de supprimer les données en session pour la famille:', error);
+        }
+      }
+
+      resetFamilyForms();
+      updateAnnouncementButtons(null);
+
+      alert('Annonce supprimée avec succès. Vous pouvez en créer une nouvelle à tout moment.');
+    }
+
+    function initializeFamilyManagement() {
+      const ownerEmail = getCurrentUserEmail();
+      if (!ownerEmail) {
+        updateAnnouncementButtons(null);
+        return;
+      }
+
+      const listings = getFamilyListings();
+      const existingIndex = findListingIndexByOwner(listings, ownerEmail);
+      const existing = existingIndex >= 0 ? listings[existingIndex] : null;
+
+      if (existing) {
+        populateFormsFromListing(existing);
+      } else {
+        resetFamilyForms();
+      }
+
+      updateAnnouncementButtons(existing);
+    }
+
     document.getElementById('publishBtn').addEventListener('click', publishFamily);
+    document.getElementById('deleteListingBtn').addEventListener('click', deleteFamilyListing);
 
     // Fonctions pour les réservations
     function formatDate(dateString) {
@@ -684,9 +908,11 @@
                   </div>
                 </div>
               </td>
-              <td><i class="bi bi-calendar3 me-1"></i>${formatDate(r.checkIn)} → ${formatDate(r.checkOut)}</td>
+              <td>
+                <div><i class="bi bi-calendar3 me-1"></i>${formatDate(r.checkIn)} → ${formatDate(r.checkOut)}</div>
+                ${r.totalPrice ? `<small class="text-muted">${r.totalPrice}</small>` : ''}
+              </td>
               <td>${r.guests} personne${r.guests > 1 ? 's' : ''}</td>
-              <td>${r.totalPrice}</td>
               <td>${badgeFor(r.status)}</td>
               <td class="text-end">
                 <button class="btn btn-sm btn-outline-primary me-2" onclick="showReservationDetails(${r.id})">
@@ -716,7 +942,7 @@
       const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
       const res = reservations.find(r => r.id === id);
       if (res) {
-        alert(`Détails de la réservation\n\nTouriste: ${res.familyName}\nPériode: ${formatDate(res.checkIn)} au ${formatDate(res.checkOut)}\nPersonnes: ${res.guests}\nStatut: ${res.status}\nPrix: ${res.totalPrice}\nMessage: ${res.message || 'Aucun message'}`);
+        alert(`Détails de la réservation\n\nTouriste: ${res.familyName}\nPériode: ${formatDate(res.checkIn)} au ${formatDate(res.checkOut)}\nPersonnes: ${res.guests}\nStatut: ${res.status}\nRésumé: ${res.totalPrice || 'À définir avec la famille'}\nMessage: ${res.message || 'Aucun message'}`);
       }
     }
 
@@ -771,8 +997,9 @@
       }
     });
 
-    // Charger les réservations au chargement de la page
+    // Initialisation au chargement de la page
     document.addEventListener('DOMContentLoaded', function () {
+      initializeFamilyManagement();
       loadFamilyReservations();
     });
   </script>
